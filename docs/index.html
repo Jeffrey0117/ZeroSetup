@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZeroSetup - Windows 零配置啟動框架</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--gray-800);
+            background: var(--gray-50);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        header .tagline {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+            margin: 5px;
+        }
+
+        .btn-white {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-white:hover {
+            background: var(--gray-100);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Section */
+        section {
+            padding: 80px 0;
+        }
+
+        section h2 {
+            font-size: 2.2rem;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--gray-900);
+        }
+
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid var(--gray-200);
+        }
+
+        .feature-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--gray-900);
+        }
+
+        .feature-card p {
+            color: var(--gray-600);
+        }
+
+        /* Comparison */
+        .comparison-section {
+            background: white;
+        }
+
+        .comparison-intro {
+            max-width: 800px;
+            margin: 0 auto 50px;
+            text-align: center;
+            color: var(--gray-600);
+            font-size: 1.1rem;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        @media (max-width: 900px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .approach-card {
+            background: var(--gray-50);
+            border-radius: 16px;
+            padding: 30px;
+            border: 2px solid var(--gray-200);
+            position: relative;
+        }
+
+        .approach-card.highlight {
+            border-color: var(--primary);
+            background: linear-gradient(180deg, #eff6ff 0%, var(--gray-50) 100%);
+        }
+
+        .approach-card.highlight::before {
+            content: '推薦';
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .approach-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+            color: var(--gray-900);
+        }
+
+        .approach-card .desc {
+            color: var(--gray-600);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .approach-card .tools {
+            background: var(--gray-100);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .approach-card .tools strong {
+            color: var(--gray-800);
+        }
+
+        .pros-cons {
+            margin-top: 20px;
+        }
+
+        .pros-cons h4 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            color: var(--gray-600);
+        }
+
+        .pros-cons ul {
+            list-style: none;
+            margin-bottom: 15px;
+        }
+
+        .pros-cons li {
+            padding: 6px 0;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .pros-cons .pro::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .pros-cons .con::before {
+            content: '✗';
+            color: var(--danger);
+            font-weight: bold;
+        }
+
+        /* Comparison Table */
+        .table-section {
+            overflow-x: auto;
+            margin-top: 60px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .comparison-table th {
+            background: var(--gray-800);
+            color: white;
+            font-weight: 600;
+        }
+
+        .comparison-table th:first-child {
+            width: 200px;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:hover td {
+            background: var(--gray-50);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Use Cases */
+        .use-cases {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .use-case-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .use-case-card h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .use-case-card p {
+            color: var(--gray-600);
+            margin-bottom: 15px;
+        }
+
+        .use-case-card .recommend {
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        /* Quick Start */
+        .quick-start {
+            background: var(--gray-800);
+            color: white;
+        }
+
+        .quick-start h2 {
+            color: white;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .step {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 20px;
+        }
+
+        .step h3 {
+            margin-bottom: 10px;
+        }
+
+        .step p {
+            opacity: 0.8;
+            font-size: 0.95rem;
+        }
+
+        .code-block {
+            background: var(--gray-900);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.95rem;
+            color: #a5f3fc;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--gray-900);
+            color: var(--gray-400);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-links {
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            margin: 0 15px;
+        }
+
+        /* Language Switcher */
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .lang-switch select {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: none;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        header {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>ZeroSetup</h1>
+            <p class="tagline">Windows 零配置啟動框架</p>
+            <p class="subtitle">讓任何專案一鍵即用 — 全新電腦也能跑，不需要預先安裝任何東西</p>
+            <div>
+                <a href="https://github.com/Jeffrey0117/ZeroSetup" class="btn btn-white">GitHub</a>
+                <a href="#quick-start" class="btn btn-outline">快速開始</a>
+            </div>
+        </div>
+    </header>
+
+    <section>
+        <div class="container">
+            <h2>核心特色</h2>
+            <div class="features">
+                <div class="feature-card">
+                    <div class="icon">🎯</div>
+                    <h3>零配置</h3>
+                    <p>全新電腦雙擊 run.bat 就能跑，自動安裝所有依賴</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🔄</div>
+                    <h3>自動更新</h3>
+                    <p>Git pull + 依賴更新 + 優雅重啟，持續保持最新</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🛡️</div>
+                    <h3>優雅重啟</h3>
+                    <p>等待進行中的任務完成才重啟，不打斷工作流程</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">📦</div>
+                    <h3>多語言支援</h3>
+                    <p>支援 Python 和 Node.js 專案，一套框架通用</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">⚙️</div>
+                    <h3>可配置</h3>
+                    <p>一個設定檔搞定所有選項，彈性調整</p>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🪶</div>
+                    <h3>輕量化</h3>
+                    <p>純批次腳本，無需額外安裝任何框架</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="comparison-section">
+        <div class="container">
+            <h2>三種分發方式比較</h2>
+            <p class="comparison-intro">
+                想讓使用者能輕鬆執行你的專案？有三種主流方式：打包、編譯、以及 ZeroSetup 的即時安裝方式。
+            </p>
+
+            <div class="comparison-grid">
+                <div class="approach-card">
+                    <h3>📦 打包 (Packaging)</h3>
+                    <p class="desc">把 Python/Node.js 和所有依賴「打包」成可執行檔</p>
+                    <div class="tools">
+                        <strong>工具：</strong>PyInstaller, py2exe, electron-builder, pkg
+                    </div>
+                    <div class="pros-cons">
+                        <h4>優點</h4>
+                        <ul>
+                            <li class="pro">單一 exe 檔，易於分發</li>
+                            <li class="pro">不需要安裝任何東西</li>
+                            <li class="pro">離線可用</li>
+                        </ul>
+                        <h4>缺點</h4>
+                        <ul>
+                            <li class="con">檔案巨大（50MB~500MB+）</li>
+                            <li class="con">每次更新要重新打包分發</li>
+                            <li class="con">容易被防毒誤判</li>
+                            <li class="con">打包過程可能有相容性問題</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="approach-card highlight">
+                    <h3>🚀 ZeroSetup</h3>
+                    <p class="desc">不打包，而是讓腳本自動安裝需要的環境</p>
+                    <div class="tools">
+                        <strong>原理：</strong>使用 winget 自動安裝 Python/Node.js 等
+                    </div>
+                    <div class="pros-cons">
+                        <h4>優點</h4>
+                        <ul>
+                            <li class="pro">檔案極小（幾 KB 腳本）</li>
+                            <li class="pro">Git push 就是發布</li>
+                            <li class="pro">永遠是最新版</li>
+                            <li class="pro">完整原生環境，無相容問題</li>
+                            <li class="pro">Debug 容易</li>
+                        </ul>
+                        <h4>缺點</h4>
+                        <ul>
+                            <li class="con">首次需要網路下載</li>
+                            <li class="con">首次啟動較慢</li>
+                            <li class="con">僅限 Windows 10/11</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="approach-card">
+                    <h3>⚡ 編譯 (Compiling)</h3>
+                    <p class="desc">把 Python/JS 編譯成真正的機器碼執行檔</p>
+                    <div class="tools">
+                        <strong>工具：</strong>Nuitka, Cython, nexe
+                    </div>
+                    <div class="pros-cons">
+                        <h4>優點</h4>
+                        <ul>
+                            <li class="pro">執行速度較快</li>
+                            <li class="pro">一定程度的程式碼保護</li>
+                            <li class="pro">單一執行檔</li>
+                        </ul>
+                        <h4>缺點</h4>
+                        <ul>
+                            <li class="con">編譯過程複雜耗時</li>
+                            <li class="con">不是所有套件都能編譯</li>
+                            <li class="con">檔案仍然很大</li>
+                            <li class="con">Debug 困難</li>
+                            <li class="con">更新需重新編譯分發</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-section">
+                <h3 style="text-align: center; margin-bottom: 30px; color: var(--gray-800);">功能比較表</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>特性</th>
+                            <th>打包 (PyInstaller)</th>
+                            <th>編譯 (Nuitka)</th>
+                            <th>ZeroSetup</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>分發檔案大小</strong></td>
+                            <td><span class="badge badge-danger">50~500MB</span></td>
+                            <td><span class="badge badge-warning">30~200MB</span></td>
+                            <td><span class="badge badge-success">幾 KB</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>更新方式</strong></td>
+                            <td>重新下載整包</td>
+                            <td>重新下載整包</td>
+                            <td><span class="badge badge-success">git pull</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>首次啟動</strong></td>
+                            <td><span class="badge badge-success">即開即用</span></td>
+                            <td><span class="badge badge-success">即開即用</span></td>
+                            <td>需下載依賴 (3~5分鐘)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>離線使用</strong></td>
+                            <td><span class="badge badge-success">可以</span></td>
+                            <td><span class="badge badge-success">可以</span></td>
+                            <td>首次需網路</td>
+                        </tr>
+                        <tr>
+                            <td><strong>防毒誤判</strong></td>
+                            <td><span class="badge badge-danger">常見</span></td>
+                            <td><span class="badge badge-warning">偶爾</span></td>
+                            <td><span class="badge badge-success">無</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Debug 難度</strong></td>
+                            <td><span class="badge badge-danger">困難</span></td>
+                            <td><span class="badge badge-danger">很困難</span></td>
+                            <td><span class="badge badge-success">容易</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>相容性</strong></td>
+                            <td><span class="badge badge-warning">可能有問題</span></td>
+                            <td><span class="badge badge-danger">限制多</span></td>
+                            <td><span class="badge badge-success">完整原生</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>發布複雜度</strong></td>
+                            <td>每次要打包上傳</td>
+                            <td>每次要編譯上傳</td>
+                            <td><span class="badge badge-success">git push</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>平台支援</strong></td>
+                            <td>各平台需分別打包</td>
+                            <td>各平台需分別編譯</td>
+                            <td>Windows 10/11</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <h2>適用場景</h2>
+            <div class="use-cases">
+                <div class="use-case-card">
+                    <h3>🏢 內部工具 / 企業應用</h3>
+                    <p>IT 部門可以確保環境一致，自動更新，方便維護。使用者不需要任何技術背景。</p>
+                    <p class="recommend">→ 推薦 ZeroSetup</p>
+                </div>
+                <div class="use-case-card">
+                    <h3>👨‍💻 開發者工具 / CLI</h3>
+                    <p>快速分享給同事或社群，git clone 就能用，永遠保持最新版。</p>
+                    <p class="recommend">→ 推薦 ZeroSetup</p>
+                </div>
+                <div class="use-case-card">
+                    <h3>🌐 需要離線使用</h3>
+                    <p>在無網路環境下也需要執行的工具。</p>
+                    <p class="recommend">→ 推薦打包</p>
+                </div>
+                <div class="use-case-card">
+                    <h3>🔒 商業軟體 / 需保護程式碼</h3>
+                    <p>需要一定程度的程式碼保護，防止輕易反編譯。</p>
+                    <p class="recommend">→ 推薦編譯</p>
+                </div>
+                <div class="use-case-card">
+                    <h3>📱 跨平台應用</h3>
+                    <p>需要同時支援 Windows, macOS, Linux。</p>
+                    <p class="recommend">→ 推薦打包 (各平台版本)</p>
+                </div>
+                <div class="use-case-card">
+                    <h3>🔧 持續開發中的專案</h3>
+                    <p>頻繁更新，需要使用者保持最新版本。</p>
+                    <p class="recommend">→ 推薦 ZeroSetup</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="quick-start" id="quick-start">
+        <div class="container">
+            <h2>快速開始</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>複製檔案</h3>
+                    <p>將 ZeroSetup 的腳本檔案複製到你的專案根目錄</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>建立設定</h3>
+                    <p>複製 zerosetup.config.example.bat 並修改設定</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>完成！</h3>
+                    <p>使用者只需要 git clone 然後執行 run.bat</p>
+                </div>
+            </div>
+            <div class="code-block">
+                <code>
+git clone https://github.com/你的帳號/你的專案.git<br>
+cd 你的專案<br>
+run.bat
+                </code>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://github.com/Jeffrey0117/ZeroSetup">GitHub</a>
+                <a href="https://github.com/Jeffrey0117/ZeroSetup/issues">Issues</a>
+                <a href="https://github.com/Jeffrey0117/ZeroSetup/blob/main/LICENSE">MIT License</a>
+            </div>
+            <p>讓使用者專注在使用，而不是設環境</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">© 2025 Jeffrey0117. MIT License.</p>
+        </div>
+    </footer>
+</body>
+</html>
+</content>
+</invoke>
