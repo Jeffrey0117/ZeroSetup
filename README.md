@@ -160,6 +160,23 @@ npx zerosetup
 使用者：好，開了。能用了。
 ```
 
+---
+
+## 生態系
+
+ZeroSetup 是一個開發者工具鏈的一部分，從新電腦到上線，每一步都零摩擦：
+
+| 工具 | 做什麼 | Repo |
+|------|--------|------|
+| [**DevUp**](https://github.com/Jeffrey0117/DevUp) | 新電腦？一個指令重建你的整個工作環境 | `npx devup-cli` |
+| **ZeroSetup** | 任何 GitHub 專案，雙擊就跑 | *你在這裡* |
+| [**ClaudeBot**](https://github.com/Jeffrey0117/ClaudeBot) | 在手機上用 AI 寫程式，語音轉程式碼，即時串流 | Telegram bot |
+| [**CloudPipe**](https://github.com/Jeffrey0117/CloudPipe) | 自架 Vercel。Git push 自動部署，Telegram 管理，31+ MCP 工具 | `npm i -g @jeffrey0117/cloudpipe` |
+
+**DevUp** 用 ZeroSetup 的偵測引擎來辨識每個 repo 怎麼裝、怎麼跑。**ClaudeBot** 用 ZeroSetup 做 Windows 一鍵安裝。你的工具，整個生態系都在用。
+
+---
+
 ## 系統需求
 
 使用者端：
