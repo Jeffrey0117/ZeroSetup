@@ -67,7 +67,7 @@ echo [Phase 2] Reading config...
 REM --- Parse zerosetup.json into batch variables via node ---
 if exist "zerosetup.json" (
   echo   Found zerosetup.json
-  node -e "const c=require('./zerosetup.json');const d=c.dependencies||{};const s=c.scripts||{};const e=v=>String(v||'').replace(/\x22/g,'');const lines=[];lines.push('set \"ZS_NAME='+e(c.name)+'\"');lines.push('set \"ZS_RUNTIME='+e(c.runtime||'node')+'\"');lines.push('set \"ZS_ENTRY='+e(c.entry||'index.js')+'\"');lines.push('set \"ZS_PORT='+e(c.port)+'\"');lines.push('set \"ZS_HEALTH='+e(c.health)+'\"');lines.push('set \"ZS_NPM='+(d.npm?'1':'0')+'\"');lines.push('set \"ZS_PIP='+(d.pip?'1':'0')+'\"');lines.push('set \"ZS_WINGET='+(d.winget?d.winget.map(e).join(','):'')+'\"');lines.push('set \"ZS_NPM_GLOBAL='+(d['npm-global']?d['npm-global'].map(e).join(','):'')+'\"');lines.push('set \"ZS_PRESTART='+e(s['pre-start'])+'\"');lines.push('set \"ZS_START='+e(s.start)+'\"');lines.push('set \"ZS_STOP='+e(s.stop)+'\"');console.log(lines.join('\n'));" > "%TEMP%\zs_vars.bat" 2>nul
+  node -e "const c=require('./zerosetup.json');const d=c.dependencies||{};const s=c.scripts||{};const e=v=>String(v||'').replace(/\x22/g,'');const lines=[];lines.push('set \"ZS_NAME='+e(c.name)+'\"');lines.push('set \"ZS_RUNTIME='+e(c.runtime||'node')+'\"');lines.push('set \"ZS_ENTRY='+e(c.entry||'index.js')+'\"');lines.push('set \"ZS_PORT='+e(c.port)+'\"');lines.push('set \"ZS_HEALTH='+e(c.health)+'\"');lines.push('set \"ZS_PKG_MGR='+e(c.packageManager||'npm')+'\"');lines.push('set \"ZS_NPM='+(d.npm?'1':'0')+'\"');lines.push('set \"ZS_PIP='+(d.pip?'1':'0')+'\"');lines.push('set \"ZS_WINGET='+(d.winget?d.winget.map(e).join(','):'')+'\"');lines.push('set \"ZS_NPM_GLOBAL='+(d['npm-global']?d['npm-global'].map(e).join(','):'')+'\"');lines.push('set \"ZS_PRESTART='+e(s['pre-start'])+'\"');lines.push('set \"ZS_START='+e(s.start)+'\"');lines.push('set \"ZS_STOP='+e(s.stop)+'\"');console.log(lines.join('\n'));" > "%TEMP%\zs_vars.bat" 2>nul
   call "%TEMP%\zs_vars.bat"
   del "%TEMP%\zs_vars.bat" >nul 2>&1
 ) else (
@@ -77,6 +77,7 @@ if exist "zerosetup.json" (
   set "ZS_ENTRY=index.js"
   set "ZS_PORT="
   set "ZS_HEALTH="
+  set "ZS_PKG_MGR=npm"
   set "ZS_NPM=1"
   set "ZS_PIP=0"
   set "ZS_WINGET="
@@ -123,14 +124,14 @@ if not "%ZS_NPM_GLOBAL%"=="" (
   )
 )
 
-REM --- npm install ---
+REM --- Install JS dependencies (smart package manager) ---
 if "%ZS_NPM%"=="1" (
   if exist "package.json" (
     if not exist "node_modules" (
-      echo   Running npm install...
-      call npm install >nul 2>&1
+      echo   Running %ZS_PKG_MGR% install...
+      call %ZS_PKG_MGR% install >nul 2>&1
     )
-    echo   npm dependencies OK
+    echo   %ZS_PKG_MGR% dependencies OK
   )
 )
 

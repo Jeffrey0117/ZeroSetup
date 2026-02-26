@@ -50,6 +50,7 @@ function main() {
   console.log(`  Framework:  ${detected.framework || 'none'}`);
   console.log(`  Entry:      ${detected.entry}`);
   if (detected.port) console.log(`  Port:       ${detected.port}`);
+  if (detected.packageManager) console.log(`  Pkg Mgr:    ${detected.packageManager.name} (${detected.packageManager.lockfile})`);
   if (detected.startCmd) console.log(`  Start:      ${detected.startCmd}`);
   if (detected.stopCmd) console.log(`  Stop:       ${detected.stopCmd}`);
   if (detected.deps.winget.length > 0) console.log(`  Winget:     ${detected.deps.winget.join(', ')}`);

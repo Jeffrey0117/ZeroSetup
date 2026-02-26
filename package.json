@@ -1,6 +1,6 @@
 {
   "name": "zerosetup",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Scan any project, auto-detect runtime/dependencies, generate setup.bat. Users just git clone and double-click.",
   "main": "init.js",
   "bin": {
