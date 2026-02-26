@@ -3,151 +3,161 @@
 </p>
 
 <p align="center">
-  <b>掃一下就生成啟動腳本 — 全新電腦雙擊就能跑</b>
-  <br>
-  自動偵測專案類型、自動裝依賴、自動啟動，零人工介入
+  <b>讓你的 GitHub 專案，任何人雙擊就能跑</b>
 </p>
 
 <p align="center">
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License"></a>
 </p>
 
-## 這是什麼？
+## 問題
 
-一個指令掃描你的專案，自動生成 `zerosetup.json` + `run.bat` + `stop.bat`。
-
-拿到任何一台全新 Windows 電腦：
+你寫了一個很棒的工具放上 GitHub。然後使用者看到你的 README：
 
 ```
-git clone → run.bat → 自動裝 Node.js/Python/PM2/FFmpeg/所有依賴 → 服務啟動
+安裝步驟：
+1. 安裝 Python 3.11
+2. 安裝 FFmpeg 並加入 PATH
+3. git clone 本專案
+4. pip install -r requirements.txt
+5. python main.py
 ```
 
-**不需要手動設定任何東西。**
+**90% 的人在第 1 步就關掉了。**
 
-## 運作方式
+他們不是工程師。他們不知道 PATH 是什麼、pip 是什麼。他們只是想用你的工具。
+
+## 解法
+
+用 ZeroSetup 掃一下你的專案，它會生成 `run.bat`。使用者只需要：
 
 ```
-                    你的專案目錄
-                         │
-          node path/to/zerosetup/init.js
-                         │
-         ┌───────────────┼───────────────┐
-         ▼               ▼               ▼
-   偵測 runtime      偵測 framework    偵測 dependencies
-   (Node/Python)    (PM2/Express/     (cloudflared/FFmpeg/
-                     FastAPI/Next)     npm globals)
-         │               │               │
-         └───────────────┼───────────────┘
-                         ▼
-               生成 zerosetup.json
-               複製 run.bat + stop.bat
-                         │
-                         ▼
-              全新電腦雙擊 run.bat
-                         │
-         ┌───────┬───────┼───────┬──────────┐
-         ▼       ▼       ▼       ▼          ▼
-      裝 Node  裝 Git  裝 PM2  winget     npm/pip
-      (winget) (winget) (npm)  自訂套件   install
-                         │
-                         ▼
-                    啟動 + Health Check
+git clone https://github.com/你/你的專案.git
+雙擊 run.bat
 ```
 
-## 快速開始
+沒了。Python、FFmpeg、pip install，全部自動處理。
+
+## 使用者看到的
+
+```
+  ZeroSetup
+  =========
+
+  [Phase 1] Bootstrap...
+    Installing Node.js...    ← 自動裝
+    Node.js OK
+
+  [Phase 2] Reading config...
+    Found zerosetup.json
+
+  [Phase 3] Installing dependencies...
+    Installing Python...     ← 自動裝
+    Python OK
+    Installing FFmpeg...     ← 自動裝
+    FFmpeg OK
+    Running pip install...   ← 自動裝
+    pip dependencies OK
+
+  [Phase 4] Starting...
+    Running: python main.py
+    Service is healthy!
+
+  ========================================
+  YourApp started!
+  ========================================
+
+  URL: http://localhost:8000
+```
+
+使用者什麼都不用懂。雙擊，等它跑完，打開瀏覽器。
+
+## 你（開發者）要做什麼
+
+只要一次，一行指令：
 
 ```bash
-# 對任何專案跑一次 init
 node C:\path\to\zerosetup\init.js C:\path\to\your-project
-
-# 輸出：
-#   Runtime:    node
-#   Framework:  pm2
-#   Entry:      index.js
-#   Port:       8787
-#   Start:      pm2 start ecosystem.config.js
-#   Winget:     cloudflare.cloudflared, FFmpeg.FFmpeg
-#   NPM Global: pm2
-#
-#   Created: zerosetup.json
-#   Created: run.bat
-#   Created: stop.bat
 ```
 
-完成。以後任何人拿到這個專案，雙擊 `run.bat` 就能跑。
+它會自動掃描你的專案，偵測出所有需要的東西，生成三個檔案：
 
-## 自動偵測能力
+| 生成的檔案 | 用途 |
+|-----------|------|
+| `zerosetup.json` | 你的專案需要什麼（runtime、dependencies、start command） |
+| `run.bat` | 通用啟動腳本（使用者雙擊這個） |
+| `stop.bat` | 通用停止腳本 |
 
-| 偵測項目 | 方法 |
-|---------|------|
-| Runtime | `package.json` → Node.js、`requirements.txt` → Python、都有 → both |
-| Entry Point | `pkg.main` → 常見檔名 (server.js, app.js, main.py...) |
-| Port | `.env` PORT → `config.json` → 原始碼 `.listen(PORT)` → scripts `--port` |
-| Framework | PM2 (ecosystem.config.js)、Next.js、Express、FastAPI、Flask、Django |
-| Start/Stop | PM2 → `pm2 start/delete`、npm scripts → `npm start`、否則 `node/python <entry>` |
-| Winget 依賴 | 掃原始碼關鍵字：cloudflared、ffmpeg、ffprobe |
-| NPM Global | PM2、pnpm (偵測 lock file) |
+把這三個檔案 commit 進你的專案就好。
 
-## 生成的 zerosetup.json
+## 自動偵測什麼
+
+你不用手動填任何設定。它掃描你的專案自動判斷：
+
+| 偵測項目 | 怎麼偵測 |
+|---------|---------|
+| Node.js / Python | 有 `package.json` 或 `requirements.txt` |
+| Express / FastAPI / PM2 / Next.js... | 看 dependencies 和設定檔 |
+| Port | 掃 `.env`、`config.json`、原始碼 `.listen()` |
+| FFmpeg / cloudflared 等系統工具 | 掃原始碼關鍵字 |
+| npm globals (pm2, pnpm) | 看 lock file 和 ecosystem.config.js |
+| 怎麼啟動 / 怎麼停止 | 根據 framework 自動決定 |
+
+## 生成的 zerosetup.json 範例
 
 ```json
 {
-  "name": "cloudpipe",
-  "runtime": "node",
-  "entry": "index.js",
-  "port": 8787,
-  "health": "http://localhost:8787/health",
+  "name": "my-video-tool",
+  "runtime": "python",
+  "entry": "main.py",
+  "port": 8000,
+  "health": "http://localhost:8000/health",
   "dependencies": {
-    "winget": ["cloudflare.cloudflared", "FFmpeg.FFmpeg"],
-    "npm-global": ["pm2"],
-    "npm": true
+    "winget": ["FFmpeg.FFmpeg"],
+    "pip": true
   },
   "scripts": {
-    "start": "pm2 start ecosystem.config.js",
-    "stop": "pm2 delete all"
+    "start": "python main.py"
   }
 }
 ```
 
-可以手動編輯加入更多依賴或自訂指令。
+想加東西？直接改這個 JSON 就好。
 
-## run.bat 四階段
+## Before / After
 
-| 階段 | 動作 |
-|------|------|
-| Phase 1: Bootstrap | 確認 winget → 自動裝 Node.js → 自動裝 Git（如果有 .git） |
-| Phase 2: 讀設定 | `node -e` 解析 `zerosetup.json` → 轉成 batch 變數 |
-| Phase 3: 裝依賴 | Python → winget 套件 → npm globals → npm install → pip install |
-| Phase 4: 啟動 | pre-start → start → health check（自動重試 5 次） |
-
-PATH 刷新技巧：裝完軟體後從 Windows Registry 重新載入 PATH，不用重開終端。
-
-## 檔案結構
+**Before（沒有 ZeroSetup）：**
 
 ```
-zerosetup/
-├── init.js              # CLI 入口：掃描 + 生成
-├── lib/
-│   ├── detect.js        # 自動偵測邏輯
-│   └── generate.js      # 生成 zerosetup.json
-├── templates/
-│   ├── run.bat          # 通用啟動腳本（所有專案共用）
-│   └── stop.bat         # 通用停止腳本
-│   └── windows-winget/  # v1 舊模板（legacy）
-└── package.json
+你的 README：
+  1. 安裝 Python 3.11
+  2. 安裝 FFmpeg
+  3. 設定 PATH
+  4. pip install -r requirements.txt
+  5. python main.py
+
+使用者：看不懂，關掉。
+```
+
+**After（有 ZeroSetup）：**
+
+```
+你的 README：
+  git clone → 雙擊 run.bat
+
+使用者：好，開了。能用了。
 ```
 
 ## 系統需求
 
+使用者端：
 - Windows 10 1709+ 或 Windows 11
-- winget（大多數 Windows 10/11 已內建）
+- winget（大多數 Windows 已內建）
+- 需要網路（首次安裝依賴）
+
+開發者端：
+- Node.js（跑 init.js 用）
 
 ## License
 
 MIT
-
----
-
-<p align="center">
-  <b>讓用戶專注在使用，而不是設環境</b>
-</p>

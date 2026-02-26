@@ -3,483 +3,337 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZeroSetup 2.0 — 掃一下就能跑</title>
+    <title>ZeroSetup — 讓你的 GitHub 專案，任何人雙擊就能跑</title>
     <style>
         :root {
             --bg: #0a0a0a;
             --surface: #141414;
-            --surface2: #1a1a1a;
+            --surface2: #1c1c1c;
             --border: #262626;
             --text: #e5e5e5;
             --text2: #a3a3a3;
+            --text3: #666;
             --accent: #3b82f6;
             --accent2: #60a5fa;
             --green: #22c55e;
             --green-dim: #166534;
             --yellow: #eab308;
             --red: #ef4444;
+            --red-dim: #7f1d1d;
             --cyan: #22d3ee;
             --purple: #a78bfa;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
+            background: var(--bg); color: var(--text); line-height: 1.6;
         }
+        .container { max-width: 880px; margin: 0 auto; padding: 0 24px; }
 
-        .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
-
-        /* Hero */
+        /* ── Hero ── */
         .hero {
-            padding: 80px 0 60px;
+            padding: 100px 0 80px;
             text-align: center;
             border-bottom: 1px solid var(--border);
         }
-
-        .hero-badge {
-            display: inline-block;
-            padding: 4px 14px;
-            border: 1px solid var(--green-dim);
-            border-radius: 20px;
-            font-size: 0.8rem;
-            color: var(--green);
-            margin-bottom: 20px;
-            background: rgba(34,197,94,0.08);
-        }
-
         .hero h1 {
-            font-size: 3.2rem;
-            font-weight: 700;
-            letter-spacing: -0.03em;
-            margin-bottom: 16px;
+            font-size: 2.8rem; font-weight: 700;
+            letter-spacing: -0.03em; margin-bottom: 20px;
+            line-height: 1.2;
         }
-
         .hero h1 span { color: var(--accent2); }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text2);
-            max-width: 560px;
-            margin: 0 auto 32px;
+        .hero .subtitle {
+            font-size: 1.15rem; color: var(--text2);
+            max-width: 520px; margin: 0 auto;
         }
 
-        .hero-cmd {
-            display: inline-block;
+        /* ── Pain ── */
+        .pain-section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .pain-label {
+            font-size: 0.75rem; letter-spacing: 0.1em;
+            text-transform: uppercase; color: var(--red);
+            margin-bottom: 12px;
+        }
+        .pain-title {
+            font-size: 1.8rem; font-weight: 700;
+            margin-bottom: 32px; letter-spacing: -0.02em;
+        }
+
+        .pain-story {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 14px 28px;
-            font-family: 'Consolas', 'SF Mono', monospace;
-            font-size: 1rem;
-            color: var(--cyan);
+            border-radius: 12px;
+            padding: 32px;
+            max-width: 600px;
+        }
+        .pain-step {
+            display: flex; gap: 16px;
+            padding: 10px 0;
+            font-size: 0.95rem;
+        }
+        .pain-step .num {
+            flex-shrink: 0; width: 24px; height: 24px;
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; font-size: 0.75rem; color: var(--text2);
+            margin-top: 2px;
+        }
+        .pain-step .text { color: var(--text2); }
+        .pain-step .text code {
+            background: var(--bg); padding: 1px 6px; border-radius: 3px;
+            font-family: 'Consolas', monospace; font-size: 0.85rem; color: var(--cyan);
+        }
+        .pain-step.fail .num {
+            background: var(--red-dim); border-color: var(--red); color: var(--red);
+        }
+        .pain-step.fail .text { color: var(--red); }
+        .pain-result {
+            margin-top: 20px; padding-top: 20px;
+            border-top: 1px solid var(--border);
+            color: var(--text3); font-size: 0.9rem;
+            font-style: italic;
         }
 
-        .hero-cmd .dim { color: var(--text2); }
+        /* ── Solution ── */
+        .solution-section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .solution-label {
+            font-size: 0.75rem; letter-spacing: 0.1em;
+            text-transform: uppercase; color: var(--green);
+            margin-bottom: 12px;
+        }
+        .solution-title {
+            font-size: 1.8rem; font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .solution-desc {
+            color: var(--text2); font-size: 1.05rem;
+            margin-bottom: 40px;
+        }
 
-        /* Terminal */
-        .terminal-section { padding: 80px 0; }
+        .compare-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .compare-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px; padding: 28px;
+        }
+        .compare-card.bad { border-color: rgba(239,68,68,0.3); }
+        .compare-card.good { border-color: rgba(34,197,94,0.3); }
+        .compare-card h3 {
+            font-size: 0.8rem; text-transform: uppercase;
+            letter-spacing: 0.08em; margin-bottom: 16px;
+        }
+        .compare-card.bad h3 { color: var(--red); }
+        .compare-card.good h3 { color: var(--green); }
+        .compare-card pre {
+            font-family: 'Consolas', monospace;
+            font-size: 0.82rem; line-height: 1.8;
+            color: var(--text2); white-space: pre-wrap;
+        }
+        .compare-card.bad pre { opacity: 0.6; }
+        .compare-card.good pre .highlight { color: var(--green); }
+
+        /* ── Terminal ── */
+        .terminal-section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .term-label {
+            font-size: 0.75rem; letter-spacing: 0.1em;
+            text-transform: uppercase; color: var(--accent2);
+            margin-bottom: 12px;
+        }
+        .term-title {
+            font-size: 1.8rem; font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .term-desc {
+            color: var(--text2); font-size: 1.05rem;
+            margin-bottom: 40px;
+        }
 
         .terminal {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 24px 48px rgba(0,0,0,0.4);
+            border-radius: 12px; overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
-
         .terminal-bar {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 16px;
-            background: var(--surface2);
+            display: flex; align-items: center; gap: 8px;
+            padding: 12px 16px; background: var(--surface2);
             border-bottom: 1px solid var(--border);
         }
-
-        .terminal-dot {
-            width: 12px; height: 12px;
-            border-radius: 50%;
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot.r { background: #ef4444; }
+        .dot.y { background: #eab308; }
+        .dot.g { background: #22c55e; }
+        .terminal-bar span {
+            flex: 1; text-align: center;
+            font-size: 0.8rem; color: var(--text3);
         }
-        .terminal-dot.r { background: #ef4444; }
-        .terminal-dot.y { background: #eab308; }
-        .terminal-dot.g { background: #22c55e; }
-
-        .terminal-title {
-            flex: 1;
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--text2);
-        }
-
         .terminal-body {
             padding: 24px;
-            font-family: 'Consolas', 'SF Mono', 'Fira Code', monospace;
-            font-size: 0.85rem;
-            line-height: 1.8;
-            overflow-x: auto;
+            font-family: 'Consolas', 'SF Mono', monospace;
+            font-size: 0.82rem; line-height: 1.9;
+        }
+        .terminal-body .g { color: var(--green); }
+        .terminal-body .c { color: var(--cyan); }
+        .terminal-body .y { color: var(--yellow); }
+        .terminal-body .d { color: var(--text3); }
+        .terminal-body .w { color: #fff; }
+        .terminal-body .p { color: var(--purple); }
+        .terminal-body .comment {
+            color: var(--text3); font-style: italic;
+            font-family: -apple-system, sans-serif;
+            font-size: 0.78rem;
         }
 
-        .terminal-body .prompt { color: var(--green); }
-        .terminal-body .cmd { color: #fff; }
-        .terminal-body .output { color: var(--text2); }
-        .terminal-body .label { color: var(--cyan); }
-        .terminal-body .value { color: var(--yellow); }
-        .terminal-body .success { color: var(--green); }
-        .terminal-body .file { color: var(--purple); }
-
-        .section-label {
-            font-size: 0.75rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--accent2);
+        /* ── Developer ── */
+        .dev-section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .dev-label {
+            font-size: 0.75rem; letter-spacing: 0.1em;
+            text-transform: uppercase; color: var(--purple);
             margin-bottom: 12px;
         }
-
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
+        .dev-title {
+            font-size: 1.8rem; font-weight: 700;
             margin-bottom: 12px;
-            letter-spacing: -0.02em;
         }
-
-        .section-desc {
-            color: var(--text2);
-            font-size: 1.05rem;
+        .dev-desc {
+            color: var(--text2); font-size: 1.05rem;
             margin-bottom: 40px;
         }
-
-        /* Flow */
-        .flow-section {
-            padding: 80px 0;
-            border-top: 1px solid var(--border);
+        .dev-steps {
+            display: grid; grid-template-columns: 1fr auto 1fr auto 1fr;
+            gap: 0; align-items: start;
         }
-
-        .flow-grid {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr auto 1fr;
-            align-items: start;
-            gap: 0;
-        }
-
-        .flow-card {
+        .dev-step {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
+            border-radius: 12px; padding: 24px;
         }
-
-        .flow-card h3 {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--accent2);
+        .dev-step h4 {
+            font-size: 0.8rem; text-transform: uppercase;
+            letter-spacing: 0.06em; color: var(--purple);
+            margin-bottom: 10px;
+        }
+        .dev-step p {
+            font-size: 0.88rem; color: var(--text2);
             margin-bottom: 12px;
         }
-
-        .flow-card p {
-            font-size: 0.9rem;
-            color: var(--text2);
-            margin-bottom: 12px;
-        }
-
-        .flow-card code {
-            display: block;
-            background: var(--bg);
-            padding: 10px 12px;
-            border-radius: 6px;
+        .dev-step code {
+            display: block; background: var(--bg);
+            padding: 8px 12px; border-radius: 6px;
             font-family: 'Consolas', monospace;
-            font-size: 0.8rem;
-            color: var(--cyan);
-            margin-top: 8px;
+            font-size: 0.78rem; color: var(--cyan);
+        }
+        .dev-arrow {
+            display: flex; align-items: center;
+            justify-content: center; font-size: 1.5rem;
+            color: var(--text3); padding: 0 8px; padding-top: 40px;
         }
 
-        .flow-arrow {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: var(--text2);
-            padding: 0 8px;
-            padding-top: 40px;
-        }
-
-        /* Detect table */
+        /* ── Detect ── */
         .detect-section {
             padding: 80px 0;
-            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
         }
-
         .detect-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
         }
-
         .detect-card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 20px;
+            border-radius: 10px; padding: 20px;
         }
-
-        .detect-card h4 {
-            font-size: 0.9rem;
-            color: var(--text);
-            margin-bottom: 8px;
-        }
-
+        .detect-card h4 { font-size: 0.88rem; margin-bottom: 6px; }
         .detect-card p {
-            font-size: 0.82rem;
-            color: var(--text2);
-            line-height: 1.7;
+            font-size: 0.8rem; color: var(--text2); line-height: 1.6;
         }
-
-        .detect-card .tag {
+        .tag {
             display: inline-block;
-            background: rgba(59,130,246,0.15);
-            color: var(--accent2);
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-family: 'Consolas', monospace;
-            margin: 2px;
+            background: rgba(59,130,246,0.12); color: var(--accent2);
+            padding: 1px 7px; border-radius: 4px;
+            font-size: 0.72rem; font-family: 'Consolas', monospace;
+            margin: 1px;
         }
 
-        /* Run.bat phases */
-        .phases-section {
-            padding: 80px 0;
-            border-top: 1px solid var(--border);
-        }
-
-        .phase-timeline {
-            position: relative;
-            padding-left: 32px;
-        }
-
-        .phase-timeline::before {
-            content: '';
-            position: absolute;
-            left: 11px;
-            top: 8px;
-            bottom: 8px;
-            width: 2px;
-            background: var(--border);
-        }
-
-        .phase-item {
-            position: relative;
-            margin-bottom: 32px;
-        }
-
-        .phase-item:last-child { margin-bottom: 0; }
-
-        .phase-item::before {
-            content: '';
-            position: absolute;
-            left: -25px;
-            top: 8px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--accent);
-            border: 2px solid var(--bg);
-        }
-
-        .phase-item h3 {
-            font-size: 1rem;
-            margin-bottom: 6px;
-        }
-
-        .phase-item h3 .num {
-            color: var(--accent2);
-            margin-right: 8px;
-        }
-
-        .phase-item p {
-            font-size: 0.9rem;
-            color: var(--text2);
-        }
-
-        .phase-item .detail {
-            margin-top: 8px;
-            font-family: 'Consolas', monospace;
-            font-size: 0.8rem;
-            color: var(--cyan);
-            background: var(--surface);
-            padding: 8px 12px;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-        }
-
-        /* Proof */
+        /* ── Proof ── */
         .proof-section {
             padding: 80px 0;
-            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
         }
-
         .proof-card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
+            border-radius: 12px; overflow: hidden;
         }
-
         .proof-header {
-            display: flex;
-            align-items: center;
+            display: flex; align-items: center;
             justify-content: space-between;
-            padding: 20px 24px;
+            padding: 16px 24px;
             border-bottom: 1px solid var(--border);
         }
-
-        .proof-header h3 { font-size: 1.1rem; }
-
+        .proof-header h3 { font-size: 1rem; }
         .proof-header a {
-            color: var(--accent2);
-            text-decoration: none;
-            font-size: 0.85rem;
+            color: var(--accent2); text-decoration: none; font-size: 0.82rem;
         }
         .proof-header a:hover { text-decoration: underline; }
-
-        .proof-json {
+        .proof-body {
             padding: 24px;
-            font-family: 'Consolas', 'SF Mono', monospace;
-            font-size: 0.85rem;
-            line-height: 1.8;
-            overflow-x: auto;
-        }
-
-        .proof-json .key { color: var(--cyan); }
-        .proof-json .str { color: var(--green); }
-        .proof-json .bool { color: var(--yellow); }
-        .proof-json .bracket { color: var(--text2); }
-        .proof-json .comment { color: #525252; font-style: italic; }
-
-        /* Killer features */
-        .killer-section {
-            padding: 80px 0;
-            border-top: 1px solid var(--border);
-        }
-
-        .killer-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-        }
-
-        .killer-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 24px;
-        }
-
-        .killer-card h3 {
-            font-size: 0.95rem;
-            margin-bottom: 8px;
-            color: var(--text);
-        }
-
-        .killer-card p {
-            font-size: 0.85rem;
-            color: var(--text2);
-            line-height: 1.7;
-        }
-
-        .killer-card .highlight-line {
-            margin-top: 12px;
-            padding: 8px 12px;
-            background: var(--bg);
-            border-radius: 6px;
             font-family: 'Consolas', monospace;
-            font-size: 0.78rem;
-            color: var(--green);
-            border-left: 3px solid var(--green);
+            font-size: 0.82rem; line-height: 1.9;
         }
 
-        /* CTA */
+        /* ── CTA ── */
         .cta-section {
-            padding: 80px 0;
-            text-align: center;
-            border-top: 1px solid var(--border);
+            padding: 80px 0; text-align: center;
+            border-bottom: 1px solid var(--border);
         }
-
         .cta-section h2 {
-            font-size: 2rem;
-            margin-bottom: 12px;
+            font-size: 1.8rem; margin-bottom: 12px;
         }
-
         .cta-section p {
-            color: var(--text2);
-            margin-bottom: 32px;
+            color: var(--text2); margin-bottom: 32px;
             font-size: 1.05rem;
         }
-
-        .cta-buttons {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
+        .cta-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
         .btn {
-            display: inline-block;
-            padding: 12px 28px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.2s;
-            border: none;
-            cursor: pointer;
+            display: inline-block; padding: 12px 28px;
+            border-radius: 8px; text-decoration: none;
+            font-weight: 600; font-size: 0.95rem;
+            transition: all 0.2s; border: none; cursor: pointer;
         }
-
-        .btn-primary {
-            background: var(--accent);
-            color: white;
-        }
+        .btn-primary { background: var(--accent); color: white; }
         .btn-primary:hover { background: var(--accent2); }
-
-        .btn-ghost {
-            background: transparent;
-            color: var(--text);
-            border: 1px solid var(--border);
-        }
+        .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
         .btn-ghost:hover { border-color: var(--text2); }
 
-        /* Footer */
         footer {
-            padding: 40px 0;
-            border-top: 1px solid var(--border);
-            text-align: center;
-            color: var(--text2);
-            font-size: 0.85rem;
+            padding: 40px 0; text-align: center;
+            color: var(--text3); font-size: 0.82rem;
         }
-
-        footer a {
-            color: var(--text2);
-            text-decoration: none;
-            margin: 0 12px;
-        }
+        footer a { color: var(--text3); text-decoration: none; margin: 0 12px; }
         footer a:hover { color: var(--text); }
 
-        /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.2rem; }
-            .flow-grid {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-            .flow-arrow {
-                transform: rotate(90deg);
-                padding: 0;
-            }
-            .killer-grid { grid-template-columns: 1fr; }
-            .proof-json { font-size: 0.75rem; }
+            .hero h1 { font-size: 2rem; }
+            .compare-grid { grid-template-columns: 1fr; }
+            .dev-steps { grid-template-columns: 1fr; gap: 12px; }
+            .dev-arrow { transform: rotate(90deg); padding: 0; }
         }
     </style>
 </head>
@@ -488,256 +342,226 @@
 <!-- Hero -->
 <section class="hero">
     <div class="container">
-        <div class="hero-badge">v2.0 - Auto Detection</div>
-        <h1>Zero<span>Setup</span></h1>
-        <p>掃描任何專案，自動偵測一切，生成啟動腳本。全新 Windows 雙擊就能跑。</p>
-        <div class="hero-cmd">
-            <span class="dim">$</span> node zerosetup/init.js <span class="dim">your-project/</span>
+        <h1>讓你的 GitHub 專案<br><span>任何人雙擊就能跑</span></h1>
+        <p class="subtitle">不用教使用者裝 Python、設 PATH、跑 pip install。<br>他們只需要 git clone，雙擊 run.bat。</p>
+    </div>
+</section>
+
+<!-- Pain -->
+<section class="pain-section">
+    <div class="container">
+        <div class="pain-label">The Problem</div>
+        <div class="pain-title">你的使用者現在經歷的</div>
+
+        <div class="pain-story">
+            <div class="pain-step">
+                <div class="num">1</div>
+                <div class="text">在 GitHub 上看到一個好用的工具，點進去</div>
+            </div>
+            <div class="pain-step">
+                <div class="num">2</div>
+                <div class="text">README 說先安裝 <code>Python 3.11</code></div>
+            </div>
+            <div class="pain-step">
+                <div class="num">3</div>
+                <div class="text">然後安裝 <code>FFmpeg</code> 並「加入系統 PATH」</div>
+            </div>
+            <div class="pain-step">
+                <div class="num">4</div>
+                <div class="text">然後 <code>pip install -r requirements.txt</code></div>
+            </div>
+            <div class="pain-step">
+                <div class="num">5</div>
+                <div class="text">然後 <code>python main.py</code></div>
+            </div>
+            <div class="pain-step fail">
+                <div class="num">X</div>
+                <div class="text">PATH 是什麼？pip 是什麼？我只是想用這個工具。算了，關掉。</div>
+            </div>
+            <div class="pain-result">90% 的人在第 2 步就離開了。你流失的不是沒興趣的人，是不會裝環境的人。</div>
         </div>
     </div>
 </section>
 
-<!-- Terminal Demo -->
+<!-- Solution -->
+<section class="solution-section">
+    <div class="container">
+        <div class="solution-label">The Fix</div>
+        <div class="solution-title">你的 README 只需要兩行</div>
+        <div class="solution-desc">ZeroSetup 讓你的專案從「5 步安裝教學」變成「雙擊就能用」。</div>
+
+        <div class="compare-grid">
+            <div class="compare-card bad">
+                <h3>Before</h3>
+<pre>## 安裝步驟
+
+1. 安裝 Python 3.11
+2. 安裝 FFmpeg 並加入 PATH
+3. git clone 本專案
+4. cd my-project
+5. pip install -r requirements.txt
+6. python main.py</pre>
+            </div>
+            <div class="compare-card good">
+                <h3>After</h3>
+<pre>## 安裝步驟
+
+<span class="highlight">git clone 本專案
+雙擊 run.bat</span>
+
+就這樣。
+Python、FFmpeg、pip install
+全部自動處理。</pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Terminal: What user sees -->
 <section class="terminal-section">
     <div class="container">
-        <div class="section-label">Live Demo</div>
-        <div class="section-title">一個指令，全自動偵測</div>
-        <div class="section-desc">以 CloudPipe (PM2 + Cloudflare Tunnel + Express) 為例：</div>
+        <div class="term-label">User Experience</div>
+        <div class="term-title">使用者看到的</div>
+        <div class="term-desc">他們雙擊 run.bat，看到這些。什麼都不用懂，等它跑完就好。</div>
 
         <div class="terminal">
             <div class="terminal-bar">
-                <div class="terminal-dot r"></div>
-                <div class="terminal-dot y"></div>
-                <div class="terminal-dot g"></div>
-                <div class="terminal-title">Command Prompt</div>
+                <div class="dot r"></div>
+                <div class="dot y"></div>
+                <div class="dot g"></div>
+                <span>run.bat</span>
             </div>
             <div class="terminal-body">
-<span class="prompt">&gt;</span> <span class="cmd">node C:\zerosetup\init.js C:\cloudpipe</span>
+<span class="w">  ZeroSetup</span>
+<span class="w">  =========</span>
 
-<span class="output">  ZeroSetup Init</span>
-<span class="output">  ==============</span>
-<span class="output">  Target: C:\cloudpipe</span>
+<span class="d">[Phase 1] Bootstrap...</span>
+<span class="d">  Installing Node.js...</span>       <span class="comment">&larr; 自動裝</span>
+<span class="g">  Node.js OK</span>
 
-<span class="output">  Scanning...</span>
-<span class="output">  <span class="label">Runtime:</span>    <span class="value">node</span></span>
-<span class="output">  <span class="label">Framework:</span>  <span class="value">pm2</span></span>
-<span class="output">  <span class="label">Entry:</span>      <span class="value">index.js</span></span>
-<span class="output">  <span class="label">Port:</span>       <span class="value">8787</span></span>
-<span class="output">  <span class="label">Start:</span>      <span class="value">pm2 start ecosystem.config.js</span></span>
-<span class="output">  <span class="label">Stop:</span>       <span class="value">pm2 delete all</span></span>
-<span class="output">  <span class="label">Winget:</span>     <span class="value">cloudflare.cloudflared, FFmpeg.FFmpeg</span></span>
-<span class="output">  <span class="label">NPM Global:</span> <span class="value">pm2</span></span>
+<span class="d">[Phase 2] Reading config...</span>
+<span class="g">  Found zerosetup.json</span>
 
-<span class="success">  Created: zerosetup.json</span>
-<span class="success">  Created: run.bat</span>
-<span class="success">  Created: stop.bat</span>
+<span class="d">[Phase 3] Installing dependencies...</span>
+<span class="d">  Installing Python...</span>        <span class="comment">&larr; 自動裝</span>
+<span class="g">  Python OK</span>
+<span class="d">  Installing FFmpeg.FFmpeg...</span> <span class="comment">&larr; 自動裝</span>
+<span class="g">  FFmpeg.FFmpeg OK</span>
+<span class="d">  Running pip install...</span>      <span class="comment">&larr; 自動裝</span>
+<span class="g">  pip dependencies OK</span>
 
-<span class="output">  Done! To start your project:</span>
-<span class="output">    <span class="file">run.bat</span></span>
+<span class="d">[Phase 4] Starting...</span>
+<span class="d">  Running: python main.py</span>
+<span class="g">  Service is healthy!</span>
+
+<span class="w">  ========================================</span>
+<span class="g">  MyApp started!</span>
+<span class="w">  ========================================</span>
+
+<span class="c">  URL: http://localhost:8000</span>
+<span class="d">  Stop: run stop.bat</span>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Flow -->
-<section class="flow-section">
+<!-- Developer flow -->
+<section class="dev-section">
     <div class="container">
-        <div class="section-label">How It Works</div>
-        <div class="section-title">三步驟</div>
-        <div class="section-desc">從掃描到全新電腦跑起來</div>
+        <div class="dev-label">For Developers</div>
+        <div class="dev-title">你要做的事</div>
+        <div class="dev-desc">只要一次，一行指令。之後使用者完全不需要碰 ZeroSetup。</div>
 
-        <div class="flow-grid">
-            <div class="flow-card">
-                <h3>1. Scan</h3>
-                <p>掃描專案目錄，自動偵測 runtime、framework、entry point、port、dependencies</p>
-                <code>node init.js your-project/</code>
+        <div class="dev-steps">
+            <div class="dev-step">
+                <h4>1. Scan</h4>
+                <p>對你的專案跑一次 init</p>
+                <code>node zerosetup/init.js your-project/</code>
             </div>
-            <div class="flow-arrow">&rarr;</div>
-            <div class="flow-card">
-                <h3>2. Generate</h3>
-                <p>生成 zerosetup.json 設定檔 + 通用 run.bat / stop.bat 腳本</p>
-                <code>zerosetup.json + run.bat + stop.bat</code>
+            <div class="dev-arrow">&rarr;</div>
+            <div class="dev-step">
+                <h4>2. Commit</h4>
+                <p>它生成的三個檔案 commit 進去</p>
+                <code>zerosetup.json<br>run.bat<br>stop.bat</code>
             </div>
-            <div class="flow-arrow">&rarr;</div>
-            <div class="flow-card">
-                <h3>3. Run</h3>
-                <p>任何全新 Windows 電腦，雙擊 run.bat。自動裝 Node/Python/PM2/一切，啟動服務</p>
-                <code>git clone &rarr; run.bat &rarr; done</code>
+            <div class="dev-arrow">&rarr;</div>
+            <div class="dev-step">
+                <h4>3. Done</h4>
+                <p>使用者 clone 你的專案，雙擊 run.bat</p>
+                <code>git clone &rarr; run.bat &rarr; works</code>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Detection Capabilities -->
+<!-- Auto detect -->
 <section class="detect-section">
     <div class="container">
-        <div class="section-label">Auto Detection</div>
-        <div class="section-title">偵測能力</div>
-        <div class="section-desc">不需要手動設定任何東西。掃原始碼就知道你需要什麼。</div>
+        <div class="term-label">Auto Detection</div>
+        <div class="term-title">它怎麼知道你的專案需要什麼</div>
+        <div class="term-desc">不用手動填設定。掃描你的程式碼就知道了。</div>
 
         <div class="detect-grid">
             <div class="detect-card">
                 <h4>Runtime</h4>
-                <p>偵測 <span class="tag">package.json</span> <span class="tag">requirements.txt</span> <span class="tag">pyproject.toml</span> 判斷 Node.js / Python / both</p>
+                <p><span class="tag">package.json</span> &rarr; Node.js<br><span class="tag">requirements.txt</span> &rarr; Python</p>
             </div>
             <div class="detect-card">
                 <h4>Framework</h4>
-                <p>識別 <span class="tag">PM2</span> <span class="tag">Express</span> <span class="tag">Next.js</span> <span class="tag">FastAPI</span> <span class="tag">Flask</span> <span class="tag">Django</span> 自動決定 start/stop 指令</p>
-            </div>
-            <div class="detect-card">
-                <h4>Entry Point</h4>
-                <p>優先 <span class="tag">pkg.main</span> 然後掃 <span class="tag">server.js</span> <span class="tag">app.js</span> <span class="tag">main.py</span> 等常見檔名</p>
+                <p><span class="tag">PM2</span> <span class="tag">Express</span> <span class="tag">Next.js</span> <span class="tag">FastAPI</span> <span class="tag">Flask</span> <span class="tag">Django</span></p>
             </div>
             <div class="detect-card">
                 <h4>Port</h4>
-                <p>掃描 <span class="tag">.env</span> <span class="tag">config.json</span> <span class="tag">.listen(PORT)</span> <span class="tag">--port flag</span> 多層級偵測</p>
+                <p>掃 <span class="tag">.env</span> <span class="tag">config.json</span> <span class="tag">.listen()</span></p>
             </div>
             <div class="detect-card">
-                <h4>System Dependencies</h4>
-                <p>掃原始碼關鍵字找 <span class="tag">cloudflared</span> <span class="tag">ffmpeg</span> 自動加入 winget 安裝清單</p>
+                <h4>System Tools</h4>
+                <p>掃原始碼找 <span class="tag">ffmpeg</span> <span class="tag">cloudflared</span> 自動加 winget</p>
             </div>
             <div class="detect-card">
                 <h4>npm / pip</h4>
-                <p>偵測 <span class="tag">pnpm-lock.yaml</span> <span class="tag">ecosystem.config.js</span> 決定 npm global 依賴 (pm2, pnpm)</p>
+                <p>自動 <span class="tag">npm install</span> 或 <span class="tag">pip install</span></p>
+            </div>
+            <div class="detect-card">
+                <h4>Start / Stop</h4>
+                <p>根據 framework 決定啟動和停止指令</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- run.bat Phases -->
-<section class="phases-section">
-    <div class="container">
-        <div class="section-label">run.bat</div>
-        <div class="section-title">四階段啟動</div>
-        <div class="section-desc">全新電腦只需要 winget（Windows 內建），其他全部自動。</div>
-
-        <div class="phase-timeline">
-            <div class="phase-item">
-                <h3><span class="num">Phase 1</span> Bootstrap</h3>
-                <p>確認 winget 存在，自動安裝 Node.js 和 Git（如果有 .git）</p>
-                <div class="detail">winget install OpenJS.NodeJS.LTS &rarr; REFRESH_PATH &rarr; node ready</div>
-            </div>
-            <div class="phase-item">
-                <h3><span class="num">Phase 2</span> Read Config</h3>
-                <p>用 node -e 解析 zerosetup.json，轉成 batch 變數</p>
-                <div class="detail">node -e "..." &gt; %TEMP%\zs_vars.bat &rarr; call zs_vars.bat</div>
-            </div>
-            <div class="phase-item">
-                <h3><span class="num">Phase 3</span> Dependencies</h3>
-                <p>按需安裝 Python、winget 套件、npm globals、npm install、pip install</p>
-                <div class="detail">for %%p in (%ZS_WINGET%) do winget install %%p</div>
-            </div>
-            <div class="phase-item">
-                <h3><span class="num">Phase 4</span> Start</h3>
-                <p>執行 pre-start &rarr; start command &rarr; health check (自動重試 5 次)</p>
-                <div class="detail">call %ZS_START% &rarr; Invoke-WebRequest %ZS_HEALTH%</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Real World Proof -->
+<!-- Real world proof -->
 <section class="proof-section">
     <div class="container">
-        <div class="section-label">Real World</div>
-        <div class="section-title">CloudPipe 實測結果</div>
-        <div class="section-desc">對真實專案跑 init.js，自動偵測出的 zerosetup.json：</div>
+        <div class="term-label">Real World</div>
+        <div class="term-title">實測：CloudPipe</div>
+        <div class="term-desc">對一個真實專案（Node.js + PM2 + Cloudflare Tunnel）跑 init.js，自動偵測出：</div>
 
         <div class="proof-card">
             <div class="proof-header">
-                <h3>cloudpipe/zerosetup.json</h3>
-                <a href="https://github.com/Jeffrey0117/cloudpipe" target="_blank">View on GitHub &rarr;</a>
+                <h3>cloudpipe / zerosetup.json</h3>
+                <a href="https://github.com/Jeffrey0117/CloudPipe" target="_blank">GitHub &rarr;</a>
             </div>
-            <div class="proof-json">
-<span class="bracket">{</span>
-  <span class="key">"name"</span>: <span class="str">"cloudpipe"</span>,          <span class="comment">// from package.json</span>
-  <span class="key">"runtime"</span>: <span class="str">"node"</span>,             <span class="comment">// detected package.json</span>
-  <span class="key">"entry"</span>: <span class="str">"index.js"</span>,            <span class="comment">// detected pkg.main</span>
-  <span class="key">"port"</span>: <span class="bool">8787</span>,                   <span class="comment">// detected from .env PORT=8787</span>
-  <span class="key">"health"</span>: <span class="str">"http://localhost:8787/health"</span>,
-  <span class="key">"dependencies"</span>: <span class="bracket">{</span>
-    <span class="key">"winget"</span>: <span class="bracket">[</span>
-      <span class="str">"cloudflare.cloudflared"</span>,  <span class="comment">// found 'cloudflared' in source code</span>
-      <span class="str">"FFmpeg.FFmpeg"</span>            <span class="comment">// found 'ffmpeg' in source code</span>
-    <span class="bracket">]</span>,
-    <span class="key">"npm-global"</span>: <span class="bracket">[</span><span class="str">"pm2"</span><span class="bracket">]</span>,       <span class="comment">// found ecosystem.config.js</span>
-    <span class="key">"npm"</span>: <span class="bool">true</span>                    <span class="comment">// has package.json</span>
-  <span class="bracket">}</span>,
-  <span class="key">"scripts"</span>: <span class="bracket">{</span>
-    <span class="key">"start"</span>: <span class="str">"pm2 start ecosystem.config.js"</span>,
-    <span class="key">"stop"</span>: <span class="str">"pm2 delete all"</span>
-  <span class="bracket">}</span>
-<span class="bracket">}</span>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Killer Features -->
-<section class="killer-section">
-    <div class="container">
-        <div class="section-label">Why It's Cool</div>
-        <div class="section-title">四個屌的點</div>
-        <div class="section-desc"></div>
-
-        <div class="killer-grid">
-            <div class="killer-card">
-                <h3>Bootstrap Paradox</h3>
-                <p>run.bat 需要 Node.js 解析 JSON，但 Node.js 可能沒裝。所以 Phase 1 先用純 batch + winget 裝 Node.js，Phase 2 才用 node -e 解析 config。先造出自己的工具，再用工具做事。</p>
-                <div class="highlight-line">winget &rarr; node.js &rarr; node -e parse JSON &rarr; batch vars</div>
-            </div>
-            <div class="killer-card">
-                <h3>Source Code Scanning</h3>
-                <p>不是只看設定檔。掃描原始碼找 cloudflared、ffmpeg 等關鍵字，自動加入 winget 安裝清單。你的 code 用了什麼，它就幫你裝什麼。</p>
-                <div class="highlight-line">source code has "cloudflared" &rarr; winget: cloudflare.cloudflared</div>
-            </div>
-            <div class="killer-card">
-                <h3>PATH Registry Refresh</h3>
-                <p>Windows 裝完軟體後 PATH 不即時生效。run.bat 直接從 Registry 撈最新 PATH 覆蓋進來，裝完立刻能用，整個流程不中斷。</p>
-                <div class="highlight-line">reg query HKLM\...\Environment /v Path &rarr; set PATH=</div>
-            </div>
-            <div class="killer-card">
-                <h3>One bat, All Projects</h3>
-                <p>run.bat 和 stop.bat 是通用腳本，所有專案共用同一份。Node、Python、PM2、Express、FastAPI 的差異全靠 zerosetup.json 驅動。</p>
-                <div class="highlight-line">same run.bat &rarr; read JSON &rarr; different behavior per project</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Before / After -->
-<section class="detect-section">
-    <div class="container">
-        <div class="section-label">v1 vs v2</div>
-        <div class="section-title">Before &amp; After</div>
-        <div class="section-desc"></div>
-
-        <div class="detect-grid">
-            <div class="detect-card" style="border-color: var(--red); opacity: 0.7;">
-                <h4 style="color: var(--red);">v1 - 手動模板</h4>
-                <p style="line-height: 2;">
-                    1. 複製 run.bat 到專案<br>
-                    2. 複製 zerosetup.config.example.bat<br>
-                    3. 手動設定 APP_NAME=...<br>
-                    4. 手動設定 RUN_MODE=python<br>
-                    5. 手動設定 NEED_PYTHON=1<br>
-                    6. 手動設定 NEED_FFMPEG=1<br>
-                    7. 手動設定 HEALTH_URL=...<br>
-                    8. 每個專案重複以上步驟
-                </p>
-            </div>
-            <div class="detect-card" style="border-color: var(--green);">
-                <h4 style="color: var(--green);">v2 - 全自動偵測</h4>
-                <p style="line-height: 2;">
-                    1. node init.js your-project/<br>
-                    <br>
-                    就這樣。<br>
-                    <br>
-                    Runtime、framework、port、<br>
-                    dependencies、start/stop 全部<br>
-                    自動偵測，自動生成。<br>
-                    零設定，零問答。
-                </p>
+            <div class="proof-body">
+<span class="c">{</span>
+  <span class="c">"name"</span>: <span class="g">"cloudpipe"</span>,
+  <span class="c">"runtime"</span>: <span class="g">"node"</span>,                <span class="d">// has package.json</span>
+  <span class="c">"entry"</span>: <span class="g">"index.js"</span>,              <span class="d">// from pkg.main</span>
+  <span class="c">"port"</span>: <span class="y">8787</span>,                      <span class="d">// from .env PORT=8787</span>
+  <span class="c">"health"</span>: <span class="g">"http://localhost:8787/health"</span>,
+  <span class="c">"dependencies"</span>: <span class="c">{</span>
+    <span class="c">"winget"</span>: [
+      <span class="g">"cloudflare.cloudflared"</span>,    <span class="d">// found "cloudflared" in source</span>
+      <span class="g">"FFmpeg.FFmpeg"</span>              <span class="d">// found "ffmpeg" in source</span>
+    ],
+    <span class="c">"npm-global"</span>: [<span class="g">"pm2"</span>],         <span class="d">// has ecosystem.config.js</span>
+    <span class="c">"npm"</span>: <span class="y">true</span>
+  <span class="c">}</span>,
+  <span class="c">"scripts"</span>: <span class="c">{</span>
+    <span class="c">"start"</span>: <span class="g">"pm2 start ecosystem.config.js"</span>,
+    <span class="c">"stop"</span>: <span class="g">"pm2 delete all"</span>
+  <span class="c">}</span>
+<span class="c">}</span>
             </div>
         </div>
     </div>
@@ -746,8 +570,8 @@
 <!-- CTA -->
 <section class="cta-section">
     <div class="container">
-        <h2>試試看</h2>
-        <p>對你的專案跑一次 init.js，看它偵測出什麼。</p>
+        <h2>讓你的使用者不再流失</h2>
+        <p>對你的專案跑一行指令，從此任何人雙擊就能用。</p>
         <div class="cta-buttons">
             <a href="https://github.com/Jeffrey0117/ZeroSetup" class="btn btn-primary">GitHub</a>
             <a href="https://github.com/Jeffrey0117/ZeroSetup#readme" class="btn btn-ghost">README</a>
@@ -758,8 +582,8 @@
 <footer>
     <div class="container">
         <a href="https://github.com/Jeffrey0117/ZeroSetup">GitHub</a>
-        <a href="https://github.com/Jeffrey0117/ZeroSetup/blob/main/LICENSE">MIT License</a>
-        <p style="margin-top: 16px;">ZeroSetup &mdash; 讓用戶專注在使用，而不是設環境</p>
+        <a href="https://github.com/Jeffrey0117/ZeroSetup/blob/main/LICENSE">MIT</a>
+        <p style="margin-top: 16px;">ZeroSetup &mdash; 讓使用者專注在使用，而不是設環境</p>
     </div>
 </footer>
 
