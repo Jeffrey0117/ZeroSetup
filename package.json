@@ -1,0 +1,21 @@
+{
+  "name": "zerosetup",
+  "version": "2.0.0",
+  "description": "Auto-detect project type, generate config, and create universal run/stop scripts for Windows",
+  "main": "init.js",
+  "bin": {
+    "zerosetup": "init.js"
+  },
+  "scripts": {
+    "start": "node init.js"
+  },
+  "keywords": [
+    "zero-setup",
+    "auto-detect",
+    "windows",
+    "deployment",
+    "winget"
+  ],
+  "author": "Jeffrey0117",
+  "license": "MIT"
+}
