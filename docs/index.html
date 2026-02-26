@@ -6,13 +6,13 @@
     <title>ZeroSetup — 讓你的 GitHub 專案，任何人雙擊就能跑</title>
     <style>
         :root {
-            --bg: #0a0a0a;
-            --surface: #141414;
-            --surface2: #1c1c1c;
-            --border: #262626;
-            --text: #e5e5e5;
-            --text2: #a3a3a3;
-            --text3: #666;
+            --bg: #1a1a1f;
+            --surface: #222228;
+            --surface2: #2a2a30;
+            --border: #363640;
+            --text: #ededf0;
+            --text2: #a8a8b3;
+            --text3: #6e6e7a;
             --accent: #3b82f6;
             --accent2: #60a5fa;
             --green: #22c55e;
@@ -35,6 +35,11 @@
             padding: 100px 0 80px;
             text-align: center;
             border-bottom: 1px solid var(--border);
+        }
+        .hero-brand {
+            font-size: 1rem; font-weight: 600;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            color: var(--accent2); margin-bottom: 24px;
         }
         .hero h1 {
             font-size: 2.8rem; font-weight: 700;
@@ -164,7 +169,7 @@
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 12px; overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
         .terminal-bar {
             display: flex; align-items: center; gap: 8px;
@@ -342,6 +347,7 @@
 <!-- Hero -->
 <section class="hero">
     <div class="container">
+        <div class="hero-brand">ZeroSetup</div>
         <h1>讓你的 GitHub 專案<br><span>任何人雙擊就能跑</span></h1>
         <p class="subtitle">不用教使用者裝 Python、設 PATH、跑 pip install。<br>他們只需要 git clone，雙擊 run.bat。</p>
     </div>
