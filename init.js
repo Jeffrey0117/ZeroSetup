@@ -6,8 +6,10 @@
  * generates zerosetup.json and copies universal bat files.
  *
  * Usage:
- *   node init.js                    # scan current directory
- *   node init.js C:\path\to\project # scan specific directory
+ *   zerosetup                       # scan current directory
+ *   zerosetup init                  # same as above
+ *   zerosetup init C:\path\to\project
+ *   npx zerosetup
  */
 
 const fs = require('fs');
@@ -18,7 +20,9 @@ const { generate } = require('./lib/generate');
 const ZEROSETUP_ROOT = __dirname;
 
 function main() {
-  const targetPath = path.resolve(process.argv[2] || process.cwd());
+  // Support: zerosetup, zerosetup init, zerosetup init ./path, zerosetup ./path
+  const args = process.argv.slice(2).filter(a => a !== 'init');
+  const targetPath = path.resolve(args[0] || process.cwd());
 
   if (!fs.existsSync(targetPath)) {
     console.error(`Error: Directory not found: ${targetPath}`);
@@ -61,7 +65,7 @@ function main() {
   console.log(`  Created: zerosetup.json`);
 
   // 4. Copy bat templates
-  const templates = ['run.bat', 'stop.bat'];
+  const templates = ['setup.bat', 'stop.bat'];
   for (const tpl of templates) {
     const src = path.join(ZEROSETUP_ROOT, 'templates', tpl);
     const dest = path.join(targetPath, tpl);
@@ -83,7 +87,7 @@ function main() {
   console.log('');
   console.log('  Done! To start your project:');
   console.log('');
-  console.log('    run.bat');
+  console.log('    setup.bat');
   console.log('');
 }
 

@@ -349,7 +349,7 @@
     <div class="container">
         <div class="hero-brand">ZeroSetup</div>
         <h1>讓你的 GitHub 專案<br><span>任何人雙擊就能跑</span></h1>
-        <p class="subtitle">不用教使用者裝 Python、設 PATH、跑 pip install。<br>他們只需要 git clone，雙擊 run.bat。</p>
+        <p class="subtitle">不用教使用者裝 Python、設 PATH、跑 pip install。<br>他們只需要 git clone，雙擊 setup.bat。</p>
     </div>
 </section>
 
@@ -413,7 +413,7 @@
 <pre>## 安裝步驟
 
 <span class="highlight">git clone 本專案
-雙擊 run.bat</span>
+雙擊 setup.bat</span>
 
 就這樣。
 Python、FFmpeg、pip install
@@ -428,14 +428,14 @@ Python、FFmpeg、pip install
     <div class="container">
         <div class="term-label">User Experience</div>
         <div class="term-title">使用者看到的</div>
-        <div class="term-desc">他們雙擊 run.bat，看到這些。什麼都不用懂，等它跑完就好。</div>
+        <div class="term-desc">他們雙擊 setup.bat，看到這些。什麼都不用懂，等它跑完就好。</div>
 
         <div class="terminal">
             <div class="terminal-bar">
                 <div class="dot r"></div>
                 <div class="dot y"></div>
                 <div class="dot g"></div>
-                <span>run.bat</span>
+                <span>setup.bat</span>
             </div>
             <div class="terminal-body">
 <span class="w">  ZeroSetup</span>
@@ -482,19 +482,19 @@ Python、FFmpeg、pip install
             <div class="dev-step">
                 <h4>1. Scan</h4>
                 <p>對你的專案跑一次 init</p>
-                <code>node zerosetup/init.js your-project/</code>
+                <code>npx zerosetup</code>
             </div>
             <div class="dev-arrow">&rarr;</div>
             <div class="dev-step">
                 <h4>2. Commit</h4>
                 <p>它生成的三個檔案 commit 進去</p>
-                <code>zerosetup.json<br>run.bat<br>stop.bat</code>
+                <code>zerosetup.json<br>setup.bat<br>stop.bat</code>
             </div>
             <div class="dev-arrow">&rarr;</div>
             <div class="dev-step">
                 <h4>3. Done</h4>
-                <p>使用者 clone 你的專案，雙擊 run.bat</p>
-                <code>git clone &rarr; run.bat &rarr; works</code>
+                <p>使用者 clone 你的專案，雙擊 setup.bat</p>
+                <code>git clone &rarr; setup.bat &rarr; done</code>
             </div>
         </div>
     </div>

@@ -1,11 +1,17 @@
 {
   "name": "zerosetup",
   "version": "2.0.0",
-  "description": "Auto-detect project type, generate config, and create universal run/stop scripts for Windows",
+  "description": "Scan any project, auto-detect runtime/dependencies, generate setup.bat. Users just git clone and double-click.",
   "main": "init.js",
   "bin": {
     "zerosetup": "init.js"
   },
+  "files": [
+    "init.js",
+    "lib/",
+    "templates/setup.bat",
+    "templates/stop.bat"
+  ],
   "scripts": {
     "start": "node init.js"
   },
@@ -13,9 +19,16 @@
     "zero-setup",
     "auto-detect",
     "windows",
+    "winget",
     "deployment",
-    "winget"
+    "setup",
+    "cli"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jeffrey0117/ZeroSetup"
+  },
+  "homepage": "https://jeffrey0117.github.io/ZeroSetup/",
   "author": "Jeffrey0117",
   "license": "MIT"
 }

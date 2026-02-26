@@ -29,11 +29,11 @@
 
 ## 解法
 
-用 ZeroSetup 掃一下你的專案，它會生成 `run.bat`。使用者只需要：
+用 ZeroSetup 掃一下你的專案，它會生成 `setup.bat`。使用者只需要：
 
 ```
 git clone https://github.com/你/你的專案.git
-雙擊 run.bat
+雙擊 setup.bat
 ```
 
 沒了。Python、FFmpeg、pip install，全部自動處理。
@@ -77,7 +77,19 @@ git clone https://github.com/你/你的專案.git
 只要一次，一行指令：
 
 ```bash
-node C:\path\to\zerosetup\init.js C:\path\to\your-project
+# 裝過一次就好
+npm i -g zerosetup
+
+# 在你的專案目錄跑
+cd your-project
+zerosetup init
+```
+
+或者不想裝，直接 npx：
+
+```bash
+cd your-project
+npx zerosetup
 ```
 
 它會自動掃描你的專案，偵測出所有需要的東西，生成三個檔案：
@@ -85,7 +97,7 @@ node C:\path\to\zerosetup\init.js C:\path\to\your-project
 | 生成的檔案 | 用途 |
 |-----------|------|
 | `zerosetup.json` | 你的專案需要什麼（runtime、dependencies、start command） |
-| `run.bat` | 通用啟動腳本（使用者雙擊這個） |
+| `setup.bat` | 通用啟動腳本（使用者雙擊這個） |
 | `stop.bat` | 通用停止腳本 |
 
 把這三個檔案 commit 進你的專案就好。
@@ -143,7 +155,7 @@ node C:\path\to\zerosetup\init.js C:\path\to\your-project
 
 ```
 你的 README：
-  git clone → 雙擊 run.bat
+  git clone → 雙擊 setup.bat
 
 使用者：好，開了。能用了。
 ```
