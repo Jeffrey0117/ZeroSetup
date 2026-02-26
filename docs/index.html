@@ -3,1091 +3,765 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZeroSetup - 零配置啟動方案指南</title>
+    <title>ZeroSetup 2.0 — 掃一下就能跑</title>
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            --purple: #8b5cf6;
-            --cyan: #06b6d4;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-600: #4b5563;
-            --gray-800: #1f2937;
-            --gray-900: #111827;
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --surface2: #1a1a1a;
+            --border: #262626;
+            --text: #e5e5e5;
+            --text2: #a3a3a3;
+            --accent: #3b82f6;
+            --accent2: #60a5fa;
+            --green: #22c55e;
+            --green-dim: #166534;
+            --yellow: #eab308;
+            --red: #ef4444;
+            --cyan: #22d3ee;
+            --purple: #a78bfa;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.6;
-            color: var(--gray-800);
-            background: var(--gray-50);
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+        .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
 
-        /* Header */
-        header {
-            background: linear-gradient(135deg, var(--gray-900) 0%, var(--gray-800) 100%);
-            color: white;
-            padding: 60px 0 40px;
+        /* Hero */
+        .hero {
+            padding: 80px 0 60px;
             text-align: center;
-            position: relative;
+            border-bottom: 1px solid var(--border);
         }
 
-        header h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-        }
-
-        header .tagline {
-            font-size: 1.4rem;
-            opacity: 0.9;
-            margin-bottom: 8px;
-        }
-
-        header .subtitle {
-            font-size: 1rem;
-            opacity: 0.7;
-            margin-bottom: 30px;
-        }
-
-        /* Solution Selector */
-        .solution-selector {
-            background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
-            padding: 60px 0;
-            color: white;
-        }
-
-        .selector-title {
-            text-align: center;
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-
-        .selector-subtitle {
-            text-align: center;
-            opacity: 0.8;
-            margin-bottom: 40px;
-            font-size: 1.1rem;
-        }
-
-        .selector-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .selector-card {
-            background: rgba(255,255,255,0.1);
-            border: 2px solid rgba(255,255,255,0.2);
-            border-radius: 16px;
-            padding: 30px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-        }
-
-        .selector-card:hover {
-            background: rgba(255,255,255,0.15);
-            border-color: rgba(255,255,255,0.4);
-            transform: translateY(-5px);
-        }
-
-        .selector-card.active {
-            background: var(--primary);
-            border-color: var(--primary);
-        }
-
-        .selector-card .icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-        }
-
-        .selector-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 8px;
-        }
-
-        .selector-card p {
-            opacity: 0.8;
-            font-size: 0.95rem;
-        }
-
-        .selector-card .tag {
+        .hero-badge {
             display: inline-block;
-            background: rgba(255,255,255,0.2);
-            padding: 4px 12px;
+            padding: 4px 14px;
+            border: 1px solid var(--green-dim);
             border-radius: 20px;
             font-size: 0.8rem;
-            margin-top: 12px;
+            color: var(--green);
+            margin-bottom: 20px;
+            background: rgba(34,197,94,0.08);
         }
 
-        .selector-card.active .tag {
-            background: rgba(255,255,255,0.3);
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
         }
 
-        /* Solution Panels */
-        .solution-panel {
-            display: none;
-            animation: fadeIn 0.3s ease;
+        .hero h1 span { color: var(--accent2); }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text2);
+            max-width: 560px;
+            margin: 0 auto 32px;
         }
 
-        .solution-panel.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Panel Header */
-        .panel-header {
-            padding: 50px 0;
-            text-align: center;
-        }
-
-        .panel-header.windows { background: linear-gradient(135deg, #0078d4 0%, #005a9e 100%); color: white; }
-        .panel-header.docker { background: linear-gradient(135deg, #0db7ed 0%, #384d54 100%); color: white; }
-        .panel-header.cloud { background: linear-gradient(135deg, #6e5494 0%, #24292e 100%); color: white; }
-        .panel-header.package { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; }
-
-        .panel-header h2 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
-        }
-
-        .panel-header p {
-            opacity: 0.9;
-            font-size: 1.1rem;
-        }
-
-        .btn {
+        .hero-cmd {
             display: inline-block;
-            padding: 14px 32px;
+            background: var(--surface);
+            border: 1px solid var(--border);
             border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.2s;
-            margin: 5px;
-            border: none;
-            cursor: pointer;
+            padding: 14px 28px;
+            font-family: 'Consolas', 'SF Mono', monospace;
+            font-size: 1rem;
+            color: var(--cyan);
         }
 
-        .btn-white {
-            background: white;
-            color: var(--primary);
-        }
+        .hero-cmd .dim { color: var(--text2); }
 
-        .btn-white:hover {
-            background: var(--gray-100);
-            transform: translateY(-2px);
-        }
+        /* Terminal */
+        .terminal-section { padding: 80px 0; }
 
-        .btn-outline {
-            background: transparent;
-            color: white;
-            border: 2px solid white;
-        }
-
-        .btn-outline:hover {
-            background: rgba(255,255,255,0.1);
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-        }
-
-        /* Section */
-        section {
-            padding: 80px 0;
-        }
-
-        section h2 {
-            font-size: 2.2rem;
-            text-align: center;
-            margin-bottom: 50px;
-            color: var(--gray-900);
-        }
-
-        /* Features */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .feature-card {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            border: 1px solid var(--gray-200);
-        }
-
-        .feature-card .icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-        }
-
-        .feature-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            color: var(--gray-900);
-        }
-
-        .feature-card p {
-            color: var(--gray-600);
-        }
-
-        /* Template Section */
-        .template-section {
-            background: white;
-            padding: 60px 0;
-        }
-
-        .template-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-        }
-
-        .template-card {
-            background: var(--gray-50);
-            border: 1px solid var(--gray-200);
-            border-radius: 12px;
-            padding: 25px;
-        }
-
-        .template-card h4 {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-            color: var(--gray-900);
-        }
-
-        .template-card p {
-            color: var(--gray-600);
-            font-size: 0.95rem;
-            margin-bottom: 15px;
-        }
-
-        .template-card .file-list {
-            background: var(--gray-800);
-            color: #a5f3fc;
-            padding: 15px;
-            border-radius: 8px;
-            font-family: 'Consolas', monospace;
-            font-size: 0.85rem;
-        }
-
-        /* Code Block */
-        .code-block {
-            background: var(--gray-900);
-            border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
-            overflow-x: auto;
-        }
-
-        .code-block code {
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 0.95rem;
-            color: #a5f3fc;
-        }
-
-        /* Comparison */
-        .comparison-section {
-            background: white;
-        }
-
-        .comparison-intro {
-            max-width: 800px;
-            margin: 0 auto 50px;
-            text-align: center;
-            color: var(--gray-600);
-            font-size: 1.1rem;
-        }
-
-        .comparison-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-
-        @media (max-width: 900px) {
-            .comparison-grid {
-                grid-template-columns: 1fr;
-            }
-            .selector-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .selector-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .approach-card {
-            background: var(--gray-50);
-            border-radius: 16px;
-            padding: 30px;
-            border: 2px solid var(--gray-200);
-            position: relative;
-        }
-
-        .approach-card.highlight {
-            border-color: var(--primary);
-            background: linear-gradient(180deg, #eff6ff 0%, var(--gray-50) 100%);
-        }
-
-        .approach-card.highlight::before {
-            content: '推薦';
-            position: absolute;
-            top: -12px;
-            right: 20px;
-            background: var(--primary);
-            color: white;
-            padding: 4px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .approach-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 8px;
-            color: var(--gray-900);
-        }
-
-        .approach-card .desc {
-            color: var(--gray-600);
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-        }
-
-        .approach-card .tools {
-            background: var(--gray-100);
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 0.9rem;
-        }
-
-        .approach-card .tools strong {
-            color: var(--gray-800);
-        }
-
-        .pros-cons {
-            margin-top: 20px;
-        }
-
-        .pros-cons h4 {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 10px;
-            color: var(--gray-600);
-        }
-
-        .pros-cons ul {
-            list-style: none;
-            margin-bottom: 15px;
-        }
-
-        .pros-cons li {
-            padding: 6px 0;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-        }
-
-        .pros-cons .pro::before {
-            content: '✓';
-            color: var(--success);
-            font-weight: bold;
-        }
-
-        .pros-cons .con::before {
-            content: '✗';
-            color: var(--danger);
-            font-weight: bold;
-        }
-
-        /* Comparison Table */
-        .table-section {
-            overflow-x: auto;
-            margin-top: 60px;
-        }
-
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
+        .terminal {
+            background: var(--surface);
+            border: 1px solid var(--border);
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 24px 48px rgba(0,0,0,0.4);
         }
 
-        .comparison-table th,
-        .comparison-table td {
-            padding: 16px 20px;
-            text-align: left;
-            border-bottom: 1px solid var(--gray-200);
+        .terminal-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: var(--surface2);
+            border-bottom: 1px solid var(--border);
         }
 
-        .comparison-table th {
-            background: var(--gray-800);
-            color: white;
-            font-weight: 600;
-        }
-
-        .comparison-table th:first-child {
-            width: 200px;
-        }
-
-        .comparison-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .comparison-table tr:hover td {
-            background: var(--gray-50);
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .badge-success {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .badge-warning {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .badge-danger {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        /* Quick Start */
-        .quick-start {
-            background: var(--gray-800);
-            color: white;
-        }
-
-        .quick-start h2 {
-            color: white;
-        }
-
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .step {
-            text-align: center;
-            padding: 20px;
-        }
-
-        .step-number {
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
+        .terminal-dot {
+            width: 12px; height: 12px;
             border-radius: 50%;
+        }
+        .terminal-dot.r { background: #ef4444; }
+        .terminal-dot.y { background: #eab308; }
+        .terminal-dot.g { background: #22c55e; }
+
+        .terminal-title {
+            flex: 1;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text2);
+        }
+
+        .terminal-body {
+            padding: 24px;
+            font-family: 'Consolas', 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.8;
+            overflow-x: auto;
+        }
+
+        .terminal-body .prompt { color: var(--green); }
+        .terminal-body .cmd { color: #fff; }
+        .terminal-body .output { color: var(--text2); }
+        .terminal-body .label { color: var(--cyan); }
+        .terminal-body .value { color: var(--yellow); }
+        .terminal-body .success { color: var(--green); }
+        .terminal-body .file { color: var(--purple); }
+
+        .section-label {
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent2);
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .section-desc {
+            color: var(--text2);
+            font-size: 1.05rem;
+            margin-bottom: 40px;
+        }
+
+        /* Flow */
+        .flow-section {
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .flow-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto 1fr;
+            align-items: start;
+            gap: 0;
+        }
+
+        .flow-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+        }
+
+        .flow-card h3 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent2);
+            margin-bottom: 12px;
+        }
+
+        .flow-card p {
+            font-size: 0.9rem;
+            color: var(--text2);
+            margin-bottom: 12px;
+        }
+
+        .flow-card code {
+            display: block;
+            background: var(--bg);
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.8rem;
+            color: var(--cyan);
+            margin-top: 8px;
+        }
+
+        .flow-arrow {
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
-            font-weight: bold;
-            margin: 0 auto 20px;
+            color: var(--text2);
+            padding: 0 8px;
+            padding-top: 40px;
         }
 
-        .step h3 {
-            margin-bottom: 10px;
+        /* Detect table */
+        .detect-section {
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
         }
 
-        .step p {
-            opacity: 0.8;
+        .detect-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .detect-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .detect-card h4 {
+            font-size: 0.9rem;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .detect-card p {
+            font-size: 0.82rem;
+            color: var(--text2);
+            line-height: 1.7;
+        }
+
+        .detect-card .tag {
+            display: inline-block;
+            background: rgba(59,130,246,0.15);
+            color: var(--accent2);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-family: 'Consolas', monospace;
+            margin: 2px;
+        }
+
+        /* Run.bat phases */
+        .phases-section {
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .phase-timeline {
+            position: relative;
+            padding-left: 32px;
+        }
+
+        .phase-timeline::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .phase-item {
+            position: relative;
+            margin-bottom: 32px;
+        }
+
+        .phase-item:last-child { margin-bottom: 0; }
+
+        .phase-item::before {
+            content: '';
+            position: absolute;
+            left: -25px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 2px solid var(--bg);
+        }
+
+        .phase-item h3 {
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+
+        .phase-item h3 .num {
+            color: var(--accent2);
+            margin-right: 8px;
+        }
+
+        .phase-item p {
+            font-size: 0.9rem;
+            color: var(--text2);
+        }
+
+        .phase-item .detail {
+            margin-top: 8px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.8rem;
+            color: var(--cyan);
+            background: var(--surface);
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+        }
+
+        /* Proof */
+        .proof-section {
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .proof-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .proof-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .proof-header h3 { font-size: 1.1rem; }
+
+        .proof-header a {
+            color: var(--accent2);
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+        .proof-header a:hover { text-decoration: underline; }
+
+        .proof-json {
+            padding: 24px;
+            font-family: 'Consolas', 'SF Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.8;
+            overflow-x: auto;
+        }
+
+        .proof-json .key { color: var(--cyan); }
+        .proof-json .str { color: var(--green); }
+        .proof-json .bool { color: var(--yellow); }
+        .proof-json .bracket { color: var(--text2); }
+        .proof-json .comment { color: #525252; font-style: italic; }
+
+        /* Killer features */
+        .killer-section {
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .killer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .killer-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 24px;
+        }
+
+        .killer-card h3 {
             font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: var(--text);
         }
 
-        /* Coming Soon */
-        .coming-soon {
+        .killer-card p {
+            font-size: 0.85rem;
+            color: var(--text2);
+            line-height: 1.7;
+        }
+
+        .killer-card .highlight-line {
+            margin-top: 12px;
+            padding: 8px 12px;
+            background: var(--bg);
+            border-radius: 6px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.78rem;
+            color: var(--green);
+            border-left: 3px solid var(--green);
+        }
+
+        /* CTA */
+        .cta-section {
+            padding: 80px 0;
             text-align: center;
-            padding: 100px 20px;
-            background: var(--gray-100);
+            border-top: 1px solid var(--border);
         }
 
-        .coming-soon .icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 12px;
         }
 
-        .coming-soon h3 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: var(--gray-800);
+        .cta-section p {
+            color: var(--text2);
+            margin-bottom: 32px;
+            font-size: 1.05rem;
         }
 
-        .coming-soon p {
-            color: var(--gray-600);
-            max-width: 500px;
-            margin: 0 auto 30px;
+        .cta-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+        .btn-primary:hover { background: var(--accent2); }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn-ghost:hover { border-color: var(--text2); }
 
         /* Footer */
         footer {
-            background: var(--gray-900);
-            color: var(--gray-400);
             padding: 40px 0;
+            border-top: 1px solid var(--border);
             text-align: center;
+            color: var(--text2);
+            font-size: 0.85rem;
         }
 
         footer a {
-            color: white;
+            color: var(--text2);
             text-decoration: none;
+            margin: 0 12px;
         }
+        footer a:hover { color: var(--text); }
 
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        .footer-links {
-            margin-bottom: 20px;
-        }
-
-        .footer-links a {
-            margin: 0 15px;
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .flow-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            .flow-arrow {
+                transform: rotate(90deg);
+                padding: 0;
+            }
+            .killer-grid { grid-template-columns: 1fr; }
+            .proof-json { font-size: 0.75rem; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>ZeroSetup</h1>
-            <p class="tagline">零配置啟動方案指南</p>
-            <p class="subtitle">選擇最適合你的方案，讓任何專案一鍵即用</p>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-badge">v2.0 - Auto Detection</div>
+        <h1>Zero<span>Setup</span></h1>
+        <p>掃描任何專案，自動偵測一切，生成啟動腳本。全新 Windows 雙擊就能跑。</p>
+        <div class="hero-cmd">
+            <span class="dim">$</span> node zerosetup/init.js <span class="dim">your-project/</span>
         </div>
-    </header>
-
-    <!-- Solution Selector -->
-    <section class="solution-selector">
-        <div class="container">
-            <h2 class="selector-title">選擇你的環境</h2>
-            <p class="selector-subtitle">點選最符合你需求的方案</p>
-
-            <div class="selector-grid">
-                <div class="selector-card active" onclick="showPanel('windows')">
-                    <div class="icon">🪟</div>
-                    <h3>Windows 原生</h3>
-                    <p>使用 winget 自動安裝依賴，批次腳本啟動</p>
-                    <span class="tag">已提供完整模板</span>
-                </div>
-
-                <div class="selector-card" onclick="showPanel('docker')">
-                    <div class="icon">🐳</div>
-                    <h3>Docker 容器</h3>
-                    <p>完全隔離的環境，跨平台一致</p>
-                    <span class="tag">模板開發中</span>
-                </div>
-
-                <div class="selector-card" onclick="showPanel('cloud')">
-                    <div class="icon">☁️</div>
-                    <h3>雲端開發</h3>
-                    <p>GitHub Codespaces / GitPod，瀏覽器直接開發</p>
-                    <span class="tag">模板開發中</span>
-                </div>
-
-                <div class="selector-card" onclick="showPanel('package')">
-                    <div class="icon">📦</div>
-                    <h3>打包 / 編譯</h3>
-                    <p>PyInstaller、Nuitka 等，產出單一執行檔</p>
-                    <span class="tag">指南</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Windows Panel -->
-    <div id="panel-windows" class="solution-panel active">
-        <div class="panel-header windows">
-            <div class="container">
-                <h2>🪟 Windows 原生方案</h2>
-                <p>使用 winget + 批次腳本，全新電腦雙擊就能跑</p>
-                <div style="margin-top: 25px;">
-                    <a href="https://github.com/Jeffrey0117/ZeroSetup" class="btn btn-white">GitHub 下載</a>
-                    <a href="#windows-quickstart" class="btn btn-outline">快速開始</a>
-                </div>
-            </div>
-        </div>
-
-        <section>
-            <div class="container">
-                <h2>核心特色</h2>
-                <div class="features">
-                    <div class="feature-card">
-                        <div class="icon">🎯</div>
-                        <h3>零配置</h3>
-                        <p>全新電腦雙擊 run.bat 就能跑，自動安裝所有依賴</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="icon">🔄</div>
-                        <h3>自動更新</h3>
-                        <p>Git pull + 依賴更新 + 優雅重啟，持續保持最新</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="icon">🛡️</div>
-                        <h3>優雅重啟</h3>
-                        <p>等待進行中的任務完成才重啟，不打斷工作流程</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="icon">📦</div>
-                        <h3>多語言支援</h3>
-                        <p>支援 Python 和 Node.js 專案，一套框架通用</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="icon">⚙️</div>
-                        <h3>可配置</h3>
-                        <p>一個設定檔搞定所有選項，彈性調整</p>
-                    </div>
-                    <div class="feature-card">
-                        <div class="icon">🪶</div>
-                        <h3>輕量化</h3>
-                        <p>純批次腳本，無需額外安裝任何框架</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="template-section">
-            <div class="container">
-                <h2>模板檔案</h2>
-                <div class="template-grid">
-                    <div class="template-card">
-                        <h4>📄 run.bat</h4>
-                        <p>主啟動腳本，自動安裝依賴並啟動應用</p>
-                        <div class="file-list">
-                            檢查 winget → 安裝 Python/Node → pip install → 啟動
-                        </div>
-                    </div>
-                    <div class="template-card">
-                        <h4>🔄 auto-update.bat</h4>
-                        <p>自動更新腳本，優雅重啟</p>
-                        <div class="file-list">
-                            git pull → 等待任務完成 → 更新依賴 → 重啟
-                        </div>
-                    </div>
-                    <div class="template-card">
-                        <h4>⚙️ zerosetup.config.bat</h4>
-                        <p>設定檔，定義專案需求</p>
-                        <div class="file-list">
-                            APP_NAME, RUN_MODE, NEED_PYTHON, NEED_NODE...
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="quick-start" id="windows-quickstart">
-            <div class="container">
-                <h2>快速開始</h2>
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <h3>複製檔案</h3>
-                        <p>將 ZeroSetup 的腳本檔案複製到你的專案根目錄</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <h3>建立設定</h3>
-                        <p>複製 zerosetup.config.example.bat 並修改設定</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <h3>完成！</h3>
-                        <p>使用者只需要 git clone 然後執行 run.bat</p>
-                    </div>
-                </div>
-                <div class="code-block">
-                    <code>
-git clone https://github.com/你的帳號/你的專案.git<br>
-cd 你的專案<br>
-run.bat
-                    </code>
-                </div>
-            </div>
-        </section>
     </div>
+</section>
 
-    <!-- Docker Panel -->
-    <div id="panel-docker" class="solution-panel">
-        <div class="panel-header docker">
-            <div class="container">
-                <h2>🐳 Docker 容器方案</h2>
-                <p>完全隔離的環境，跨平台一致運行</p>
+<!-- Terminal Demo -->
+<section class="terminal-section">
+    <div class="container">
+        <div class="section-label">Live Demo</div>
+        <div class="section-title">一個指令，全自動偵測</div>
+        <div class="section-desc">以 CloudPipe (PM2 + Cloudflare Tunnel + Express) 為例：</div>
+
+        <div class="terminal">
+            <div class="terminal-bar">
+                <div class="terminal-dot r"></div>
+                <div class="terminal-dot y"></div>
+                <div class="terminal-dot g"></div>
+                <div class="terminal-title">Command Prompt</div>
+            </div>
+            <div class="terminal-body">
+<span class="prompt">&gt;</span> <span class="cmd">node C:\zerosetup\init.js C:\cloudpipe</span>
+
+<span class="output">  ZeroSetup Init</span>
+<span class="output">  ==============</span>
+<span class="output">  Target: C:\cloudpipe</span>
+
+<span class="output">  Scanning...</span>
+<span class="output">  <span class="label">Runtime:</span>    <span class="value">node</span></span>
+<span class="output">  <span class="label">Framework:</span>  <span class="value">pm2</span></span>
+<span class="output">  <span class="label">Entry:</span>      <span class="value">index.js</span></span>
+<span class="output">  <span class="label">Port:</span>       <span class="value">8787</span></span>
+<span class="output">  <span class="label">Start:</span>      <span class="value">pm2 start ecosystem.config.js</span></span>
+<span class="output">  <span class="label">Stop:</span>       <span class="value">pm2 delete all</span></span>
+<span class="output">  <span class="label">Winget:</span>     <span class="value">cloudflare.cloudflared, FFmpeg.FFmpeg</span></span>
+<span class="output">  <span class="label">NPM Global:</span> <span class="value">pm2</span></span>
+
+<span class="success">  Created: zerosetup.json</span>
+<span class="success">  Created: run.bat</span>
+<span class="success">  Created: stop.bat</span>
+
+<span class="output">  Done! To start your project:</span>
+<span class="output">    <span class="file">run.bat</span></span>
             </div>
         </div>
-
-        <div class="coming-soon">
-            <div class="icon">🚧</div>
-            <h3>模板開發中</h3>
-            <p>我們正在準備 Docker 方案的模板，包含 Dockerfile、docker-compose.yml 和 .devcontainer 設定</p>
-            <a href="https://github.com/Jeffrey0117/ZeroSetup/issues" class="btn btn-primary">參與討論</a>
-        </div>
-
-        <section>
-            <div class="container">
-                <h2>預計提供</h2>
-                <div class="template-grid">
-                    <div class="template-card">
-                        <h4>🐳 Dockerfile</h4>
-                        <p>Python / Node.js 基礎映像檔模板</p>
-                        <div class="file-list">
-                            FROM python:3.11-slim<br>
-                            WORKDIR /app<br>
-                            COPY . .<br>
-                            RUN pip install -r requirements.txt
-                        </div>
-                    </div>
-                    <div class="template-card">
-                        <h4>📦 docker-compose.yml</h4>
-                        <p>多服務編排模板</p>
-                        <div class="file-list">
-                            services:<br>
-                            &nbsp;&nbsp;app:<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;build: .<br>
-                            &nbsp;&nbsp;&nbsp;&nbsp;ports: ["8000:8000"]
-                        </div>
-                    </div>
-                    <div class="template-card">
-                        <h4>💻 .devcontainer</h4>
-                        <p>VS Code 開發容器設定</p>
-                        <div class="file-list">
-                            {<br>
-                            &nbsp;&nbsp;"name": "Dev Container",<br>
-                            &nbsp;&nbsp;"dockerFile": "Dockerfile"<br>
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
     </div>
+</section>
 
-    <!-- Cloud Panel -->
-    <div id="panel-cloud" class="solution-panel">
-        <div class="panel-header cloud">
-            <div class="container">
-                <h2>☁️ 雲端開發方案</h2>
-                <p>GitHub Codespaces / GitPod — 瀏覽器開啟就能開發</p>
+<!-- Flow -->
+<section class="flow-section">
+    <div class="container">
+        <div class="section-label">How It Works</div>
+        <div class="section-title">三步驟</div>
+        <div class="section-desc">從掃描到全新電腦跑起來</div>
+
+        <div class="flow-grid">
+            <div class="flow-card">
+                <h3>1. Scan</h3>
+                <p>掃描專案目錄，自動偵測 runtime、framework、entry point、port、dependencies</p>
+                <code>node init.js your-project/</code>
+            </div>
+            <div class="flow-arrow">&rarr;</div>
+            <div class="flow-card">
+                <h3>2. Generate</h3>
+                <p>生成 zerosetup.json 設定檔 + 通用 run.bat / stop.bat 腳本</p>
+                <code>zerosetup.json + run.bat + stop.bat</code>
+            </div>
+            <div class="flow-arrow">&rarr;</div>
+            <div class="flow-card">
+                <h3>3. Run</h3>
+                <p>任何全新 Windows 電腦，雙擊 run.bat。自動裝 Node/Python/PM2/一切，啟動服務</p>
+                <code>git clone &rarr; run.bat &rarr; done</code>
             </div>
         </div>
-
-        <div class="coming-soon">
-            <div class="icon">🚧</div>
-            <h3>模板開發中</h3>
-            <p>我們正在準備雲端開發環境的設定模板，讓你的專案可以一鍵在瀏覽器中開發</p>
-            <a href="https://github.com/Jeffrey0117/ZeroSetup/issues" class="btn btn-primary">參與討論</a>
-        </div>
-
-        <section>
-            <div class="container">
-                <h2>預計提供</h2>
-                <div class="template-grid">
-                    <div class="template-card">
-                        <h4>🐙 GitHub Codespaces</h4>
-                        <p>.devcontainer 設定，一鍵開啟雲端開發環境</p>
-                        <div class="file-list">
-                            .devcontainer/<br>
-                            &nbsp;&nbsp;devcontainer.json<br>
-                            &nbsp;&nbsp;Dockerfile
-                        </div>
-                    </div>
-                    <div class="template-card">
-                        <h4>🦊 GitPod</h4>
-                        <p>.gitpod.yml 設定，開源替代方案</p>
-                        <div class="file-list">
-                            image: gitpod/workspace-python<br>
-                            tasks:<br>
-                            &nbsp;&nbsp;- init: pip install -r requirements.txt
-                        </div>
-                    </div>
-                    <div class="template-card">
-                        <h4>📝 README Badge</h4>
-                        <p>一鍵開啟按鈕，放在 README 中</p>
-                        <div class="file-list">
-                            [![Open in Codespaces](badge.svg)]<br>
-                            (https://codespaces.new/...)
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
     </div>
+</section>
 
-    <!-- Package Panel -->
-    <div id="panel-package" class="solution-panel">
-        <div class="panel-header package">
-            <div class="container">
-                <h2>📦 打包 / 編譯方案</h2>
-                <p>PyInstaller、Nuitka 等 — 產出單一執行檔</p>
+<!-- Detection Capabilities -->
+<section class="detect-section">
+    <div class="container">
+        <div class="section-label">Auto Detection</div>
+        <div class="section-title">偵測能力</div>
+        <div class="section-desc">不需要手動設定任何東西。掃原始碼就知道你需要什麼。</div>
+
+        <div class="detect-grid">
+            <div class="detect-card">
+                <h4>Runtime</h4>
+                <p>偵測 <span class="tag">package.json</span> <span class="tag">requirements.txt</span> <span class="tag">pyproject.toml</span> 判斷 Node.js / Python / both</p>
+            </div>
+            <div class="detect-card">
+                <h4>Framework</h4>
+                <p>識別 <span class="tag">PM2</span> <span class="tag">Express</span> <span class="tag">Next.js</span> <span class="tag">FastAPI</span> <span class="tag">Flask</span> <span class="tag">Django</span> 自動決定 start/stop 指令</p>
+            </div>
+            <div class="detect-card">
+                <h4>Entry Point</h4>
+                <p>優先 <span class="tag">pkg.main</span> 然後掃 <span class="tag">server.js</span> <span class="tag">app.js</span> <span class="tag">main.py</span> 等常見檔名</p>
+            </div>
+            <div class="detect-card">
+                <h4>Port</h4>
+                <p>掃描 <span class="tag">.env</span> <span class="tag">config.json</span> <span class="tag">.listen(PORT)</span> <span class="tag">--port flag</span> 多層級偵測</p>
+            </div>
+            <div class="detect-card">
+                <h4>System Dependencies</h4>
+                <p>掃原始碼關鍵字找 <span class="tag">cloudflared</span> <span class="tag">ffmpeg</span> 自動加入 winget 安裝清單</p>
+            </div>
+            <div class="detect-card">
+                <h4>npm / pip</h4>
+                <p>偵測 <span class="tag">pnpm-lock.yaml</span> <span class="tag">ecosystem.config.js</span> 決定 npm global 依賴 (pm2, pnpm)</p>
             </div>
         </div>
+    </div>
+</section>
 
-        <section class="comparison-section">
-            <div class="container">
-                <h2>方案比較</h2>
-                <p class="comparison-intro">
-                    打包和編譯是傳統的分發方式，各有優缺點。以下是與 ZeroSetup 的詳細比較。
+<!-- run.bat Phases -->
+<section class="phases-section">
+    <div class="container">
+        <div class="section-label">run.bat</div>
+        <div class="section-title">四階段啟動</div>
+        <div class="section-desc">全新電腦只需要 winget（Windows 內建），其他全部自動。</div>
+
+        <div class="phase-timeline">
+            <div class="phase-item">
+                <h3><span class="num">Phase 1</span> Bootstrap</h3>
+                <p>確認 winget 存在，自動安裝 Node.js 和 Git（如果有 .git）</p>
+                <div class="detail">winget install OpenJS.NodeJS.LTS &rarr; REFRESH_PATH &rarr; node ready</div>
+            </div>
+            <div class="phase-item">
+                <h3><span class="num">Phase 2</span> Read Config</h3>
+                <p>用 node -e 解析 zerosetup.json，轉成 batch 變數</p>
+                <div class="detail">node -e "..." &gt; %TEMP%\zs_vars.bat &rarr; call zs_vars.bat</div>
+            </div>
+            <div class="phase-item">
+                <h3><span class="num">Phase 3</span> Dependencies</h3>
+                <p>按需安裝 Python、winget 套件、npm globals、npm install、pip install</p>
+                <div class="detail">for %%p in (%ZS_WINGET%) do winget install %%p</div>
+            </div>
+            <div class="phase-item">
+                <h3><span class="num">Phase 4</span> Start</h3>
+                <p>執行 pre-start &rarr; start command &rarr; health check (自動重試 5 次)</p>
+                <div class="detail">call %ZS_START% &rarr; Invoke-WebRequest %ZS_HEALTH%</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Real World Proof -->
+<section class="proof-section">
+    <div class="container">
+        <div class="section-label">Real World</div>
+        <div class="section-title">CloudPipe 實測結果</div>
+        <div class="section-desc">對真實專案跑 init.js，自動偵測出的 zerosetup.json：</div>
+
+        <div class="proof-card">
+            <div class="proof-header">
+                <h3>cloudpipe/zerosetup.json</h3>
+                <a href="https://github.com/Jeffrey0117/cloudpipe" target="_blank">View on GitHub &rarr;</a>
+            </div>
+            <div class="proof-json">
+<span class="bracket">{</span>
+  <span class="key">"name"</span>: <span class="str">"cloudpipe"</span>,          <span class="comment">// from package.json</span>
+  <span class="key">"runtime"</span>: <span class="str">"node"</span>,             <span class="comment">// detected package.json</span>
+  <span class="key">"entry"</span>: <span class="str">"index.js"</span>,            <span class="comment">// detected pkg.main</span>
+  <span class="key">"port"</span>: <span class="bool">8787</span>,                   <span class="comment">// detected from .env PORT=8787</span>
+  <span class="key">"health"</span>: <span class="str">"http://localhost:8787/health"</span>,
+  <span class="key">"dependencies"</span>: <span class="bracket">{</span>
+    <span class="key">"winget"</span>: <span class="bracket">[</span>
+      <span class="str">"cloudflare.cloudflared"</span>,  <span class="comment">// found 'cloudflared' in source code</span>
+      <span class="str">"FFmpeg.FFmpeg"</span>            <span class="comment">// found 'ffmpeg' in source code</span>
+    <span class="bracket">]</span>,
+    <span class="key">"npm-global"</span>: <span class="bracket">[</span><span class="str">"pm2"</span><span class="bracket">]</span>,       <span class="comment">// found ecosystem.config.js</span>
+    <span class="key">"npm"</span>: <span class="bool">true</span>                    <span class="comment">// has package.json</span>
+  <span class="bracket">}</span>,
+  <span class="key">"scripts"</span>: <span class="bracket">{</span>
+    <span class="key">"start"</span>: <span class="str">"pm2 start ecosystem.config.js"</span>,
+    <span class="key">"stop"</span>: <span class="str">"pm2 delete all"</span>
+  <span class="bracket">}</span>
+<span class="bracket">}</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Killer Features -->
+<section class="killer-section">
+    <div class="container">
+        <div class="section-label">Why It's Cool</div>
+        <div class="section-title">四個屌的點</div>
+        <div class="section-desc"></div>
+
+        <div class="killer-grid">
+            <div class="killer-card">
+                <h3>Bootstrap Paradox</h3>
+                <p>run.bat 需要 Node.js 解析 JSON，但 Node.js 可能沒裝。所以 Phase 1 先用純 batch + winget 裝 Node.js，Phase 2 才用 node -e 解析 config。先造出自己的工具，再用工具做事。</p>
+                <div class="highlight-line">winget &rarr; node.js &rarr; node -e parse JSON &rarr; batch vars</div>
+            </div>
+            <div class="killer-card">
+                <h3>Source Code Scanning</h3>
+                <p>不是只看設定檔。掃描原始碼找 cloudflared、ffmpeg 等關鍵字，自動加入 winget 安裝清單。你的 code 用了什麼，它就幫你裝什麼。</p>
+                <div class="highlight-line">source code has "cloudflared" &rarr; winget: cloudflare.cloudflared</div>
+            </div>
+            <div class="killer-card">
+                <h3>PATH Registry Refresh</h3>
+                <p>Windows 裝完軟體後 PATH 不即時生效。run.bat 直接從 Registry 撈最新 PATH 覆蓋進來，裝完立刻能用，整個流程不中斷。</p>
+                <div class="highlight-line">reg query HKLM\...\Environment /v Path &rarr; set PATH=</div>
+            </div>
+            <div class="killer-card">
+                <h3>One bat, All Projects</h3>
+                <p>run.bat 和 stop.bat 是通用腳本，所有專案共用同一份。Node、Python、PM2、Express、FastAPI 的差異全靠 zerosetup.json 驅動。</p>
+                <div class="highlight-line">same run.bat &rarr; read JSON &rarr; different behavior per project</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Before / After -->
+<section class="detect-section">
+    <div class="container">
+        <div class="section-label">v1 vs v2</div>
+        <div class="section-title">Before &amp; After</div>
+        <div class="section-desc"></div>
+
+        <div class="detect-grid">
+            <div class="detect-card" style="border-color: var(--red); opacity: 0.7;">
+                <h4 style="color: var(--red);">v1 - 手動模板</h4>
+                <p style="line-height: 2;">
+                    1. 複製 run.bat 到專案<br>
+                    2. 複製 zerosetup.config.example.bat<br>
+                    3. 手動設定 APP_NAME=...<br>
+                    4. 手動設定 RUN_MODE=python<br>
+                    5. 手動設定 NEED_PYTHON=1<br>
+                    6. 手動設定 NEED_FFMPEG=1<br>
+                    7. 手動設定 HEALTH_URL=...<br>
+                    8. 每個專案重複以上步驟
                 </p>
-
-                <div class="comparison-grid">
-                    <div class="approach-card">
-                        <h3>📦 打包 (Packaging)</h3>
-                        <p class="desc">把 Python/Node.js 和所有依賴「打包」成可執行檔</p>
-                        <div class="tools">
-                            <strong>工具：</strong>PyInstaller, py2exe, electron-builder, pkg
-                        </div>
-                        <div class="pros-cons">
-                            <h4>優點</h4>
-                            <ul>
-                                <li class="pro">單一 exe 檔，易於分發</li>
-                                <li class="pro">不需要安裝任何東西</li>
-                                <li class="pro">離線可用</li>
-                            </ul>
-                            <h4>缺點</h4>
-                            <ul>
-                                <li class="con">檔案巨大（50MB~500MB+）</li>
-                                <li class="con">每次更新要重新打包分發</li>
-                                <li class="con">容易被防毒誤判</li>
-                                <li class="con">打包過程可能有相容性問題</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="approach-card highlight">
-                        <h3>🚀 ZeroSetup</h3>
-                        <p class="desc">不打包，而是讓腳本自動安裝需要的環境</p>
-                        <div class="tools">
-                            <strong>原理：</strong>使用 winget 自動安裝 Python/Node.js 等
-                        </div>
-                        <div class="pros-cons">
-                            <h4>優點</h4>
-                            <ul>
-                                <li class="pro">檔案極小（幾 KB 腳本）</li>
-                                <li class="pro">Git push 就是發布</li>
-                                <li class="pro">永遠是最新版</li>
-                                <li class="pro">完整原生環境，無相容問題</li>
-                                <li class="pro">Debug 容易</li>
-                            </ul>
-                            <h4>缺點</h4>
-                            <ul>
-                                <li class="con">首次需要網路下載</li>
-                                <li class="con">首次啟動較慢</li>
-                                <li class="con">僅限 Windows 10/11</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="approach-card">
-                        <h3>⚡ 編譯 (Compiling)</h3>
-                        <p class="desc">把 Python/JS 編譯成真正的機器碼執行檔</p>
-                        <div class="tools">
-                            <strong>工具：</strong>Nuitka, Cython, nexe
-                        </div>
-                        <div class="pros-cons">
-                            <h4>優點</h4>
-                            <ul>
-                                <li class="pro">執行速度較快</li>
-                                <li class="pro">一定程度的程式碼保護</li>
-                                <li class="pro">單一執行檔</li>
-                            </ul>
-                            <h4>缺點</h4>
-                            <ul>
-                                <li class="con">編譯過程複雜耗時</li>
-                                <li class="con">不是所有套件都能編譯</li>
-                                <li class="con">檔案仍然很大</li>
-                                <li class="con">Debug 困難</li>
-                                <li class="con">更新需重新編譯分發</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="table-section">
-                    <h3 style="text-align: center; margin-bottom: 30px; color: var(--gray-800);">功能比較表</h3>
-                    <table class="comparison-table">
-                        <thead>
-                            <tr>
-                                <th>特性</th>
-                                <th>打包 (PyInstaller)</th>
-                                <th>編譯 (Nuitka)</th>
-                                <th>ZeroSetup</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><strong>分發檔案大小</strong></td>
-                                <td><span class="badge badge-danger">50~500MB</span></td>
-                                <td><span class="badge badge-warning">30~200MB</span></td>
-                                <td><span class="badge badge-success">幾 KB</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>更新方式</strong></td>
-                                <td>重新下載整包</td>
-                                <td>重新下載整包</td>
-                                <td><span class="badge badge-success">git pull</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>首次啟動</strong></td>
-                                <td><span class="badge badge-success">即開即用</span></td>
-                                <td><span class="badge badge-success">即開即用</span></td>
-                                <td>需下載依賴 (3~5分鐘)</td>
-                            </tr>
-                            <tr>
-                                <td><strong>離線使用</strong></td>
-                                <td><span class="badge badge-success">可以</span></td>
-                                <td><span class="badge badge-success">可以</span></td>
-                                <td>首次需網路</td>
-                            </tr>
-                            <tr>
-                                <td><strong>防毒誤判</strong></td>
-                                <td><span class="badge badge-danger">常見</span></td>
-                                <td><span class="badge badge-warning">偶爾</span></td>
-                                <td><span class="badge badge-success">無</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Debug 難度</strong></td>
-                                <td><span class="badge badge-danger">困難</span></td>
-                                <td><span class="badge badge-danger">很困難</span></td>
-                                <td><span class="badge badge-success">容易</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>相容性</strong></td>
-                                <td><span class="badge badge-warning">可能有問題</span></td>
-                                <td><span class="badge badge-danger">限制多</span></td>
-                                <td><span class="badge badge-success">完整原生</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>發布複雜度</strong></td>
-                                <td>每次要打包上傳</td>
-                                <td>每次要編譯上傳</td>
-                                <td><span class="badge badge-success">git push</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>平台支援</strong></td>
-                                <td>各平台需分別打包</td>
-                                <td>各平台需分別編譯</td>
-                                <td>Windows 10/11</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
-        </section>
-
-        <section>
-            <div class="container">
-                <h2>適用場景建議</h2>
-                <div class="template-grid">
-                    <div class="template-card">
-                        <h4>🏢 內部工具 / 企業應用</h4>
-                        <p>IT 部門可以確保環境一致，自動更新，方便維護</p>
-                        <div class="file-list" style="background: var(--success); color: white;">
-                            → 推薦 ZeroSetup
-                        </div>
-                    </div>
-                    <div class="template-card">
-                        <h4>🌐 需要離線使用</h4>
-                        <p>在無網路環境下也需要執行的工具</p>
-                        <div class="file-list" style="background: var(--warning); color: white;">
-                            → 推薦打包
-                        </div>
-                    </div>
-                    <div class="template-card">
-                        <h4>🔒 商業軟體 / 需保護程式碼</h4>
-                        <p>需要一定程度的程式碼保護</p>
-                        <div class="file-list" style="background: var(--purple); color: white;">
-                            → 推薦編譯
-                        </div>
-                    </div>
-                </div>
+            <div class="detect-card" style="border-color: var(--green);">
+                <h4 style="color: var(--green);">v2 - 全自動偵測</h4>
+                <p style="line-height: 2;">
+                    1. node init.js your-project/<br>
+                    <br>
+                    就這樣。<br>
+                    <br>
+                    Runtime、framework、port、<br>
+                    dependencies、start/stop 全部<br>
+                    自動偵測，自動生成。<br>
+                    零設定，零問答。
+                </p>
             </div>
-        </section>
-    </div>
-
-    <footer>
-        <div class="container">
-            <div class="footer-links">
-                <a href="https://github.com/Jeffrey0117/ZeroSetup">GitHub</a>
-                <a href="https://github.com/Jeffrey0117/ZeroSetup/issues">Issues</a>
-                <a href="https://github.com/Jeffrey0117/ZeroSetup/blob/main/LICENSE">MIT License</a>
-            </div>
-            <p>讓使用者專注在使用，而不是設環境</p>
-            <p style="margin-top: 10px; font-size: 0.9rem;">© 2025 Jeffrey0117. MIT License.</p>
         </div>
-    </footer>
+    </div>
+</section>
 
-    <script>
-        function showPanel(panelId) {
-            // Hide all panels
-            document.querySelectorAll('.solution-panel').forEach(panel => {
-                panel.classList.remove('active');
-            });
+<!-- CTA -->
+<section class="cta-section">
+    <div class="container">
+        <h2>試試看</h2>
+        <p>對你的專案跑一次 init.js，看它偵測出什麼。</p>
+        <div class="cta-buttons">
+            <a href="https://github.com/Jeffrey0117/ZeroSetup" class="btn btn-primary">GitHub</a>
+            <a href="https://github.com/Jeffrey0117/ZeroSetup#readme" class="btn btn-ghost">README</a>
+        </div>
+    </div>
+</section>
 
-            // Remove active from all cards
-            document.querySelectorAll('.selector-card').forEach(card => {
-                card.classList.remove('active');
-            });
+<footer>
+    <div class="container">
+        <a href="https://github.com/Jeffrey0117/ZeroSetup">GitHub</a>
+        <a href="https://github.com/Jeffrey0117/ZeroSetup/blob/main/LICENSE">MIT License</a>
+        <p style="margin-top: 16px;">ZeroSetup &mdash; 讓用戶專注在使用，而不是設環境</p>
+    </div>
+</footer>
 
-            // Show selected panel
-            document.getElementById('panel-' + panelId).classList.add('active');
-
-            // Add active to clicked card
-            event.currentTarget.classList.add('active');
-
-            // Scroll to panel
-            document.getElementById('panel-' + panelId).scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    </script>
 </body>
 </html>
