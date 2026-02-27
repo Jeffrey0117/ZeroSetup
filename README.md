@@ -172,6 +172,7 @@ ZeroSetup 是一個開發者工具鏈的一部分，從新電腦到上線，每�
 | **ZeroSetup** | 任何 GitHub 專案，雙擊就跑 | *你在這裡* |
 | [**ClaudeBot**](https://github.com/Jeffrey0117/ClaudeBot) | 在手機上用 AI 寫程式，語音轉程式碼，即時串流 | Telegram bot |
 | [**CloudPipe**](https://github.com/Jeffrey0117/CloudPipe) | 自架 Vercel。Git push 自動部署，Telegram 管理，31+ MCP 工具 | `npm i -g @jeffrey0117/cloudpipe` |
+| [**MemoryGuy**](https://github.com/Jeffrey0117/MemoryGuy) | 記憶體洩漏偵測、安全優化、port 管理 | Electron app |
 
 **DevUp** 用 ZeroSetup 的偵測引擎來辨識每個 repo 怎麼裝、怎麼跑。**ClaudeBot** 用 ZeroSetup 做 Windows 一鍵安裝。你的工具，整個生態系都在用。
 
